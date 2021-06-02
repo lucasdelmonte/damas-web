@@ -57,3 +57,23 @@ for (var i = 0; i < tableroArray.length; i++) {
     }
 }
 
+/* <---------------Comienza la parte de los JUGADORES---------------> */
+
+document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
+document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
+
+/* <---------------Comienza la parte del CONTADOR---------------> */
+
+document.getElementById('jugador1_puntos').innerHTML = 1;
+document.getElementById('jugador2_puntos').innerHTML = 2;
+
+/* <---------------Comienza la parte de los TURNOS---------------> */
+
+var jugador1 = document.getElementById('jugador1'), jugador2 = document.getElementById('jugador2');
+
+/* El turno le corresponde al jugador que tenga el color #33ff33 */
+jugador1.style.borderBottom = '4px solid #33ff33';
+jugador1.style.borderRadius = '10px';
+
+jugador2.style.borderBottom = '4px solid #c4c4c4';
+jugador2.style.borderRadius = '10px';
