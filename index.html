@@ -3,16 +3,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!-- Link de Estilos -->
-	<link rel="stylesheet" href="Estilos/estilos.css">
+	<link rel="stylesheet" href="style/estilos.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 	<!-- Link de Estilos -->
+
 	<title>Tablero de Damas</title>
 </head>
-<body style="background-image: url('Imagenes/fondo_madera.jpg');">
+<body>
 	<header>
 		<nav>
-			<a href="https://www.instagram.com/teraflop.computacion/"><img class="logo" src="Imagenes/TERAFLOP.png" alt="logo"></a>
+			<a href="https://www.instagram.com/teraflop.computacion/"><img class="logo" src="img/TERAFLOP.png" alt="logo"></a>
 			<a href="#" class="nav">Damas Online</a>
 			<a href="#" class="nav">Registrarse</a>
 			<a href="#" class="nav">Iniciar Sesión</a>
@@ -20,84 +21,96 @@
 	</header>
 
     <section>
-    	<h2>Jugador 1</h2>
-    	<p>0</p>
-	    	<div class="flex-container">
-	    		<!-- Fila 1 -->
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<!-- Fila 2 -->
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<!-- Fila 3 -->
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_blanca.png" alt=""></div>
-				<!-- Fila 4 -->
-				<div class="item_black"></div>
-				<div class="item_white"></div>
-				<div class="item_black"></div>
-				<div class="item_white"></div>
-				<div class="item_black"></div>
-				<div class="item_white"></div>
-				<div class="item_black"></div>
-				<div class="item_white"></div>
-				<!-- Fila 5 -->
-				<div class="item_white"></div>
-				<div class="item_black"></div>
-				<div class="item_white"></div>
-				<div class="item_black"></div>
-				<div class="item_white"></div>
-				<div class="item_black"></div>
-				<div class="item_white"></div>
-				<div class="item_black"></div>
-				<!-- Fila 6 -->
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<!-- Fila 7 -->
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<!-- Fila 8 -->
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
-				<div class="item_black"><img src="Imagenes/ficha_roja.png" alt=""></div>
-				<div class="item_white"></div>
+			<div class="jugador1">
+				<h2 id="jugador1">Jugador 1</h2>
+				<p>0</p>	
+			</div>	
+	    	<div id="board" class="board">
+				<!-- <div class="columna columna-0">
+					<div class="item_white" id="columna-0-fila-0"></div>
+					<div class="item_black" id="columna-0-fila-1"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-0-fila-2"></div>
+					<div class="item_black" id="columna-0-fila-3"></div>
+					<div class="item_white" id="columna-0-fila-4"></div>
+					<div class="item_black" id="columna-0-fila-5"><img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-0-fila-6"></div>
+					<div class="item_black" id="columna-0-fila-7"><img src="../img/ficha_roja.png" alt=""></div>
+				</div>
+				<div class="columna columna-1">
+					<div class="item_black" id="columna-1-fila-0"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-1-fila-1"></div>
+					<div class="item_black" id="columna-1-fila-2"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-1-fila-3"></div>
+					<div class="item_black" id="columna-1-fila-4"></div>
+					<div class="item_white" id="columna-1-fila-5"></div>
+					<div class="item_black" id="columna-1-fila-6"><<img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-1-fila-7"></div>
+				</div>
+				<div class="columna columna-2">
+					<div class="item_white" id="columna-2-fila-0"></div>
+					<div class="item_black" id="columna-2-fila-1"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-2-fila-2"></div>
+					<div class="item_black" id="columna-2-fila-3"></div>
+					<div class="item_white" id="columna-2-fila-4"></div>
+					<div class="item_black" id="columna-2-fila-5"><img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-2-fila-6"></div>
+					<div class="item_black" id="columna-2-fila-7"><img src="../img/ficha_roja.png" alt=""></div>
+				</div>
+				<div class="columna columna-3">
+					<div class="item_black" id="columna-3-fila-0"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-3-fila-1"></div>
+					<div class="item_black" id="columna-3-fila-2"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-3-fila-3"></div>
+					<div class="item_black" id="columna-3-fila-4"></div>
+					<div class="item_white" id="columna-3-fila-5"></div>
+					<div class="item_black" id="columna-3-fila-6"><img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-3-fila-7"></div>
+				</div>
+				<div class="columna columna-4">
+					<div class="item_white" id="columna-4-fila-0"></div>
+					<div class="item_black" id="columna-4-fila-1"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-4-fila-2"></div>
+					<div class="item_black" id="columna-4-fila-3"></div>
+					<div class="item_white" id="columna-4-fila-4"></div>
+					<div class="item_black" id="columna-4-fila-5"><img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-4-fila-6"></div>
+					<div class="item_black" id="columna-4-fila-7"><img src="../img/ficha_roja.png" alt=""></div>
+				</div>
+				<div class="columna columna-5">
+					<div class="item_black" id="columna-5-fila-0"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-5-fila-1"></div>
+					<div class="item_black" id="columna-5-fila-2"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-5-fila-3"></div>
+					<div class="item_black" id="columna-5-fila-4"></div>
+					<div class="item_white" id="columna-5-fila-5"></div>
+					<div class="item_black" id="columna-5-fila-6"><img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-5-fila-7"></div>
+				</div>
+				<div class="columna columna-6">
+					<div class="item_white" id="columna-6-fila-0"></div>
+					<div class="item_black" id="columna-6-fila-1"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-6-fila-2"></div>
+					<div class="item_black" id="columna-6-fila-3"></div>
+					<div class="item_white" id="columna-6-fila-4"></div>
+					<div class="item_black" id="columna-6-fila-5"><img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-6-fila-6"></div>
+					<div class="item_black" id="columna-6-fila-7"><img src="../img/ficha_roja.png" alt=""></div>
+				</div>
+				<div class="columna columna-7">
+					<div class="item_black" id="columna-7-fila-0"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-7-fila-1"></div>
+					<div class="item_black" id="columna-7-fila-2"><img src="../img/ficha_blanca.png" alt=""></div>
+					<div class="item_white" id="columna-7-fila-3"></div>
+					<div class="item_black" id="columna-7-fila-4"></div>
+					<div class="item_white" id="columna-7-fila-5"></div>
+					<div class="item_black" id="columna-7-fila-6"><img src="../img/ficha_roja.png" alt=""></div>
+					<div class="item_white" id="columna-7-fila-7"></div>
+				</div> -->
 	    	</div>
-	    <p>0</p>
-	    <h2>Jugador 2</h2>
+			<div class="jugador2">
+				<p>0</p>
+				<h2 id="jugador2">Jugador 2</h2>
+			</div>
 	    <input type="button" name="Nueva Partida" value="Nueva Partida" id="nueva_partida" class="button">
 	</section>
 
@@ -105,5 +118,6 @@
 			<p2>Para ver las reglas del juego haga clic <a href="https://ruibalgames.com/wp-content/uploads/2015/01/Reglas-de-juego%E2%80%94Damas-Li%CC%81nea-Verde.pdf"> aquí</a>.</p2>
 			<p3>Sitio creado por Lucas Delmonte - 2021</p3>
 	</footer>	
+	<script src="tablero.js"></script>
 </body>
 </html>

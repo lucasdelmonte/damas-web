@@ -8,6 +8,9 @@ body{
 	font-family: Arial, Helvetica, sans-serif;
 	margin: 0;
 	padding: 0;
+	background-image: url('../img/fondo_madera.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
 }
 
 header{
@@ -71,9 +74,10 @@ p{
 	border-radius: 10px;
 }
 
-.flex-container{
+.board{
 	display: flex;
 	flex-wrap: wrap;
+	flex-direction: row;
 	box-shadow: 1px 1px 15px grey;
 }
 
@@ -93,7 +97,7 @@ p{
 	border: 1px solid grey;
 }
 
-.flex-container img{
+.board img{
 	width: 65px;
 	height: 65px;
 }
@@ -110,7 +114,7 @@ p{
 		width: 50px;
 		height: 50px;
 	}
-	.flex-container img{
+	.board img{
 		width: 45px;
 		height: 45px;
 	}
@@ -128,7 +132,7 @@ p{
 		width: 30px;
 		height: 30px;
 	}
-	.flex-container img{
+	.board img{
 		width: 25px;
 		height: 25px;
 	}
