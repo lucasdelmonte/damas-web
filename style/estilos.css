@@ -100,6 +100,12 @@ p{
 	height: 65px;
 }
 
+.foco{
+	box-shadow: rgb(121, 187, 77) 0px 0px 17px 10px;
+	/*box-shadow: rgb(250, 78, 78) 0px 0px 17px 10px;
+	box-shadow: rgb(255, 255, 255) 0px 0px 17px 10px; */
+}
+
 @media screen and (max-width: 580px){
 	section{
 		width: 400px;
