@@ -79,18 +79,18 @@ p{
 	box-shadow: 1px 1px 15px grey;
 }
 
-.item_white{
+.casilla_blanca{
 	background: #FFF;
-	width: 70px;
-	height: 70px;
+	width: 66px;
+	height: 66px;
 	text-align: center;
 	border: 1px solid grey;
 }
 
-.item_black{
+.casilla_negra{
 	background: #000;
-	width: 70px;
-	height: 70px;
+	width: 66px;
+	height: 66px;
 	text-align: center;
 	border: 1px solid grey;
 }
@@ -100,23 +100,21 @@ p{
 	height: 65px;
 }
 
-.foco{
-	box-shadow: rgb(121, 187, 77) 0px 0px 17px 10px;
-	/*box-shadow: rgb(250, 78, 78) 0px 0px 17px 10px;
-	box-shadow: rgb(255, 255, 255) 0px 0px 17px 10px; */
+.pintado {
+	box-shadow: rgb(38, 73, 231) 0px 0px 12px 8px;
 }
 
 @media screen and (max-width: 580px){
 	section{
 		width: 400px;
 	}
-	.item_white{
-		width: 50px;
-		height: 50px;
+	.casilla_blanca{
+		width: 46px;
+		height: 46px;
 	}
-	.item_black{
-		width: 50px;
-		height: 50px;
+	.casilla_negra{
+		width: 46px;
+		height: 46px;
 	}
 	.board img{
 		width: 45px;
@@ -128,18 +126,19 @@ p{
 	section{
 		width: 240px;
 	}
-	.item_white{
-		width: 30px;
-		height: 30px;
+	.casilla_blanca{
+		width: 26px;
+		height: 26px;
 	}
-	.item_black{
-		width: 30px;
-		height: 30px;
+	.casilla_negra{
+		width: 26px;
+		height: 26px;
 	}
 	.board img{
 		width: 25px;
 		height: 25px;
 	}
+	
 }
 
 .button{

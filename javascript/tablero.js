@@ -9,29 +9,36 @@ var tableroArray = [
     [2,0,2,0,2,0,0,0]
 ];
 
+var casilla, piezaMovil, piezaMovilSeleccionada;
+
 /* <---------------Comienza la parte del TABLERO---------------> */
 
-var tablero = document.getElementById('board'), cont = 0;
-
+var tablero = document.getElementById('board'), cont = 0, x = 0;
 for (var i = 0; i < tableroArray.length; i++) {
 
-        var nuevoDivFila = document.createElement('div');
+        var nuevoElementoTr = document.createElement('tr');
 
-        nuevoDivFila.className = 'fila fila-' + i;
-        tablero.appendChild(nuevoDivFila);
+        nuevoElementoTr.className = 'fila';
+        tablero.appendChild(nuevoElementoTr);
 
         cont = i % 2;
-        for (var j = 0; j < tableroArray[i].length; j++) {
-            var nuevoDiv = document.createElement('div');
+        for (var j = 0; j < tableroArray.length; j++) {
+            var casilla = document.createElement('td');           
             if (cont === 0) {
-                nuevoDiv.className = 'item_white';
+                casilla.className = 'casilla_blanca';
                 cont++;
             }else{
-                nuevoDiv.className = 'item_black';
+                casilla.className = 'casilla_negra';
                 cont--;
             }
-            nuevoDiv.id = 'fila-' + j + '-columna-' + i;
-            nuevoDivFila.appendChild(nuevoDiv);
+            casilla.id = 'fila-' + i + '-columna-' + j;
+            nuevoElementoTr.appendChild(casilla);                   
+        }
+
+        var casillas = document.querySelectorAll('td'); 
+    
+        for(var x = 0; x < casillas.length; x++) {
+            casillas[x].addEventListener('click', seleccionaPieza);
         }
 }
 
@@ -44,18 +51,16 @@ for (var i = 0; i < tableroArray.length; i++) {
         if (tableroArray[i][v] === 1) {            
             var damaBlanca = document.createElement('img');
             damaBlanca.src = 'img/ficha_blanca.png';
-            damaBlanca.alt = 'ficha_blanca';       
+            damaBlanca.alt = 'ficha';   
+            damaBlanca.className = 'ficha_blanca';    
             document.getElementById('fila-' + i +'-columna-' + v).appendChild(damaBlanca);
-            /* <-----------Comienzan las pruebas-----------> */
-            /* <-----------Finalizan las pruebas-----------> */
         }else{
             if (tableroArray[i][v] === 2) {
                 var damaRoja = document.createElement('img');
                 damaRoja.src = 'img/ficha_roja.png';
-                damaRoja.alt = 'ficha_roja';       
+                damaRoja.alt = 'ficha';
+                damaRoja.className = 'ficha_roja';       
                 document.getElementById('fila-' + i +'-columna-' + v).appendChild(damaRoja); 
-                /* <-----------Comienzan las pruebas-----------> */
-                /* <-----------Finalizan las pruebas-----------> */
             }
         }
     }
@@ -74,7 +79,7 @@ document.getElementById('jugador2_puntos').innerHTML = 2;
 /* <---------------Comienza la parte de los TURNOS---------------> */
 
 var jugador1 = document.getElementById('jugador1'), jugador2 = document.getElementById('jugador2');
-
+let turno = 
 /* El turno le corresponde al jugador que tenga el color #33ff33 */
 jugador1.style.borderBottom = '4px solid #33ff33';
 jugador1.style.borderRadius = '10px';
@@ -82,24 +87,18 @@ jugador1.style.borderRadius = '10px';
 jugador2.style.borderBottom = '4px solid #c4c4c4';
 jugador2.style.borderRadius = '10px';
 
-/* <---------------Comienza la parte de enfocar las DAMAS---------------> */
+/* <---------------Comienza la parte de enfocar y mover las DAMAS---------------> */
 
-var fichasBlancas = document.querySelectorAll('img[alt="ficha_blanca"]');
-
-for (var h = 0; h < fichasBlancas.length; h++) {
-    const fichaDefinitivaBlanca = fichasBlancas[h];
-    fichaDefinitivaBlanca.addEventListener('click', () => {               
-        fichaDefinitivaBlanca.style.boxShadow = 'rgb(121, 187, 77) 0px 0px 17px 10px';         
-    });
+function seleccionaPieza() {
+    if(!piezaMovilSeleccionada && this.firstElementChild) {
+        casilla = this; 
+        piezaMovil = this.innerHTML; 
+    // Accedemos a la 'lista de clases' del elemento 'img' y le agregamos 'pintado'
+        this.querySelector('img[alt="ficha"]').classList.add('pintado');  
+        piezaMovilSeleccionada = true; 
+    } else if(piezaMovilSeleccionada){
+        casilla.innerHTML= ''; 
+        this.innerHTML = piezaMovil; 
+        piezaMovilSeleccionada = false; 
+    }
 }
-
-var fichasRojas = document.querySelectorAll('img[alt="ficha_roja"]'); 
-
-for (var c = 0; c < fichasRojas.length; c++) { 
-    const fichaDefinitivaRoja = fichasRojas[c];
-    fichaDefinitivaRoja.addEventListener('click', () => {                  
-        fichaDefinitivaRoja.style.boxShadow = 'rgb(250, 78, 78) 0px 0px 17px 10px';         
-    });
-}
-
-/* <---------------Finaliza la parte de enfocar las DAMAS---------------> */
