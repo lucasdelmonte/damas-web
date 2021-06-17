@@ -11,36 +11,42 @@
 	<title>Tablero de Damas</title>
 </head>
 <body>
-	<header>
-		<nav>
-			<a href="https://www.instagram.com/teraflop.computacion/"><img class="logo" src="img/TERAFLOP.png" alt="logo"></a>
-			<a href="#" class="nav">Damas Online</a>
-			<a href="#" class="nav">Registrarse</a>
-			<a href="#" class="nav">Iniciar Sesión</a>
-		</nav>
-	</header>
+	<div class="contenedor-principal">
+		<header>
+			<nav>
+				<div class="logo">
+					<a href="https://www.instagram.com/teraflop.computacion/" target="_blank"><img class="logo" src="img/TERAFLOP.png" alt="logo"></a>
+				</div>
+				<div class="enlaces">
+					<a href="#" class="nav">Damas Online</a>
+					<a href="#" class="nav">Registrarse</a>
+					<a href="#" class="nav">Iniciar Sesión</a>
+				</div>
+			</nav>
+		</header>
 
-    <section>
-			<div class="jugador1">
-				<h2 id="jugador1">Jugador 1</h2>
-				<p id="jugador1_puntos">0</p>	
-			</div>	
-			
-	    	<div id="board" class="board"></div>
+    	<section>
+				<div class="jugador1">
+					<h2 id="jugador1">Jugador 1</h2>
+					<p id="jugador1_puntos">0</p>	
+				</div>	
 
-			<div class="jugador2">
-				<p id="jugador2_puntos">0</p>
-				<h2 id="jugador2">Jugador 2</h2>
+		    	<div id="board" class="board"></div>
+
+				<div class="jugador2">
+					<p id="jugador2_puntos">0</p>
+					<h2 id="jugador2">Jugador 2</h2>
+				</div>
+		    <input type="button" name="Nueva Partida" value="Nueva Partida" id="nueva_partida" class="button">
+		</section>
+
+		<footer id="footer">
+			<div class="derechos">
+				<h4>Para ver las reglas del juego haga clic <a href="https://ruibalgames.com/wp-content/uploads/2015/01/Reglas-de-juego%E2%80%94Damas-Li%CC%81nea-Verde.pdf"> aquí</a>.</h4>
+				<h4>Sitio creado por Lucas Delmonte - 2021</h4>
 			</div>
-	    <input type="button" name="Nueva Partida" value="Nueva Partida" id="nueva_partida" class="button">
-	</section>
-	
-	<footer id="footer">
-		<div class="derechos">
-			<h4>Para ver las reglas del juego haga clic <a href="https://ruibalgames.com/wp-content/uploads/2015/01/Reglas-de-juego%E2%80%94Damas-Li%CC%81nea-Verde.pdf"> aquí</a>.</h4>
-			<h4>Sitio creado por Lucas Delmonte - 2021</h4>
-		</div>
-	</footer>	
+		</footer>
+	</div>	
 	<script src="javascript/tablero.js"></script>
 </body>
 </html>

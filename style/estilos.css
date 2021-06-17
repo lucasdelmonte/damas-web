@@ -4,11 +4,20 @@
 	-moz-box-sizing: border-box;
 }
 
+@font-face {
+    font-family: roboto-light;
+    src: url('../font/Roboto/Roboto-Light.ttf');
+}
+
 body{
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: roboto-light, Arial, Helvetica, sans-serif;
 	margin: 0;
 	padding: 0;
+}
+
+.contenedor-principal{
 	background-image: url('../img/FondoPrincipal.png');
+	background-size: contain;
 }
 
 header{
@@ -18,37 +27,49 @@ header{
 nav{	
 	display: flex;
 	flex-direction: row;
-	background-color: #202020;
+	justify-content: space-between;
 	align-items: center;
+	background-color: #202020;
+	flex-wrap: nowrap;
+	height: 60px;
+	box-shadow: 0px 0px 15px 0px grey;
 }
 
 nav a{
 	color: white;
-	font-family: Roboto, Arial, sans-serif;
 	text-decoration: none;
-	padding: 15px 20px;
+	margin: 15px 20px;
+	
 }
 
-nav a:hover{
-	text-decoration: underline;
-	font-size: 17px;
+nav .enlaces a:hover{
+	border-bottom: 1px solid rgb(255, 255, 255);
+	padding-bottom: 3px;
 }
 
 nav a .logo{
-	width: 200px;
+	width: 250px;
 }
 
-@media screen and (max-width: 640px){
+@media screen and (max-width: 690px){
 	nav{
 	flex-direction: column;
 	text-align: center;
-  }
+	height: 200px;
+  	}
+	.logo{
+		margin-top: 5px;
+	}
+	.enlaces{
+		display: flex;
+		flex-direction: column;
+	}
 } 
 
 section{
 	align-content: center;
 	text-align: center;
-	width: 560px;
+	width: 590px;
 	margin-left: auto;
 	margin-right: auto;	
 }
@@ -59,6 +80,17 @@ h2{
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 10px;
+	padding-bottom: 5px;
+}
+
+#jugador1{
+	border-bottom: 4px solid #33ff33;
+	border-radius: 10px;
+}
+
+#jugador2{
+	border-bottom: 4px solid #c4c4c4;
+	border-radius: 10px;
 }
 
 p{
@@ -81,15 +113,16 @@ p{
 
 .casilla_blanca{
 	background: #FFF;
-	width: 66px;
-	height: 66px;
+	width: 70px;
+	height: 70px;
 	text-align: center;
 	border: 1px solid grey;
+	
 }
 
 .casilla_negra{
 	background: #000;
-	width: 66px;
+	width: 70px;
 	height: 66px;
 	text-align: center;
 	border: 1px solid grey;
@@ -98,49 +131,58 @@ p{
 .board img{
 	width: 65px;
 	height: 65px;
+	cursor: grab;
 }
 
 .pintado {
-	box-shadow: rgb(38, 73, 231) 0px 0px 12px 8px;
+	box-shadow: rgb(141, 231, 38) 0px 0px 12px 8px;
 }
 
-@media screen and (max-width: 580px){
-	section{
-		width: 400px;
-		height: 80%;
-	}
-	.casilla_blanca{
-		width: 46px;
-		height: 46px;
-	}
-	.casilla_negra{
-		width: 46px;
-		height: 46px;
-	}
-	.board img{
-		width: 45px;
-		height: 45px;
-	}
+.movimiento{
+	background-color: green;
 }
 
-@media screen and (max-width: 420px){
-	section{
-		width: 240px;
-		height: 70%;
-	}
-	.casilla_blanca{
-		width: 26px;
-		height: 26px;
-	}
-	.casilla_negra{
-		width: 26px;
-		height: 26px;
-	}
-	.board img{
-		width: 25px;
-		height: 25px;
-	}
+
 	
+
+@media screen and (max-width: 620px){
+	section{
+		width: 430px;
+	}
+	.casilla_blanca{
+		width: 50px;
+		height: 50px;
+	}
+	.casilla_negra{
+		width: 50px;
+		height: 50px;
+	}
+	.board img{
+		width: 44px;
+		height: 44px;
+	}
+}
+
+@media screen and (max-width: 450px){
+	section{
+		width: 296px;
+	}
+	.casilla_blanca{
+		width: 33px;
+		height: 33px;
+	}
+	.casilla_negra{
+		width: 33px;
+		height: 33px;
+	}
+	.board img{
+		width: 28px;
+		height: 28px;
+	}
+	h2{
+		width: 130px;
+		font-size: 20px;
+	}
 }
 
 .button{
@@ -148,7 +190,6 @@ p{
 	height: 52px;
 	margin-top: 20px;
 	border-radius: 12px;
-	font-family: Roboto, Arial, sans-serif;
 	background: #202020;
 	color: #FFF;
 	font-size: 18px;
@@ -165,14 +206,14 @@ p{
 
 footer{
 	width: 100%;
-	height: 60px;
     background-color: #202020;
-	padding-top: 12px;
+	padding: 8px;
+	box-shadow: 0px 0px 15px 0px grey;
 }
 
 .derechos h4{
-	margin:5px 4px 5px 4px;
-    font-size: 15px;
+    font-size: 14px;
+	margin: 10px;
 	color: wheat;
 }
 
@@ -194,7 +235,6 @@ h4 a{
 		flex-direction: column;
 		text-align: center;
 	}
-
 	h4{
 		font-size: 14px;
 	}
