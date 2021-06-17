@@ -9,7 +9,7 @@ var tableroArray = [
     [2,0,2,0,2,0,0,0]
 ];
 
-var casilla, piezaMovil, piezaMovilSeleccionada;
+var casilla, piezaMovil, piezaMovilSeleccionada, turno = 1;
 
 /* <---------------Comienza la parte del TABLERO---------------> */
 
@@ -36,7 +36,7 @@ for (var i = 0; i < tableroArray.length; i++) {
         }
 
         var casillas = document.querySelectorAll('td'); 
-    
+
         for(var x = 0; x < casillas.length; x++) {
             casillas[x].addEventListener('click', seleccionaPieza);
         }
@@ -51,15 +51,15 @@ for (var i = 0; i < tableroArray.length; i++) {
         if (tableroArray[i][v] === 1) {            
             var damaBlanca = document.createElement('img');
             damaBlanca.src = 'img/ficha_blanca.png';
-            damaBlanca.alt = 'ficha';   
-            damaBlanca.className = 'ficha_blanca';    
+            damaBlanca.alt = 'ficha_blanca';
+            damaBlanca.className = 'fichas';   
             document.getElementById('fila-' + i +'-columna-' + v).appendChild(damaBlanca);
         }else{
             if (tableroArray[i][v] === 2) {
                 var damaRoja = document.createElement('img');
                 damaRoja.src = 'img/ficha_roja.png';
-                damaRoja.alt = 'ficha';
-                damaRoja.className = 'ficha_roja';       
+                damaRoja.alt = 'ficha_roja';
+                damaRoja.className = 'fichas';
                 document.getElementById('fila-' + i +'-columna-' + v).appendChild(damaRoja); 
             }
         }
@@ -68,8 +68,8 @@ for (var i = 0; i < tableroArray.length; i++) {
 
 /* <---------------Comienza la parte de los JUGADORES---------------> */
 
-document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
-document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
+/* document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
+document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:'); */
 
 /* <---------------Comienza la parte del CONTADOR---------------> */
 
@@ -79,7 +79,7 @@ document.getElementById('jugador2_puntos').innerHTML = 2;
 /* <---------------Comienza la parte de los TURNOS---------------> */
 
 var jugador1 = document.getElementById('jugador1'), jugador2 = document.getElementById('jugador2');
-let turno = 
+
 /* El turno le corresponde al jugador que tenga el color #33ff33 */
 jugador1.style.borderBottom = '4px solid #33ff33';
 jugador1.style.borderRadius = '10px';
@@ -89,16 +89,47 @@ jugador2.style.borderRadius = '10px';
 
 /* <---------------Comienza la parte de enfocar y mover las DAMAS---------------> */
 
+/* 
 function seleccionaPieza() {
-    if(!piezaMovilSeleccionada && this.firstElementChild) {
+    if(!piezaMovilSeleccionada && this.firstElementChild) {   
         casilla = this; 
         piezaMovil = this.innerHTML; 
-    // Accedemos a la 'lista de clases' del elemento 'img' y le agregamos 'pintado'
         this.querySelector('img[alt="ficha"]').classList.add('pintado');  
         piezaMovilSeleccionada = true; 
     } else if(piezaMovilSeleccionada){
-        casilla.innerHTML= ''; 
+        casilla.innerHTML= '';
         this.innerHTML = piezaMovil; 
         piezaMovilSeleccionada = false; 
+    }
+} 
+*/
+
+function seleccionaPieza() {   
+    if (turno == 1) {
+        if(!piezaMovilSeleccionada && this.firstElementChild) {   
+            casilla = this; 
+            piezaMovil = this.innerHTML; 
+            this.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');  
+            piezaMovilSeleccionada = true;
+            console.log(piezaMovilSeleccionada);
+        } else if (piezaMovilSeleccionada){
+            casilla.innerHTML= '';
+            this.innerHTML = piezaMovil;
+            piezaMovilSeleccionada = false;
+            console.log(piezaMovilSeleccionada);
+            turno = 2;
+        }
+    } else if(turno == 2){
+        if(!piezaMovilSeleccionada && this.firstElementChild) {   
+            casilla = this; 
+            piezaMovil = this.innerHTML; 
+            this.querySelector('img[alt="ficha_roja"]').classList.add('pintado'); 
+            piezaMovilSeleccionada = true;
+        } else if(piezaMovilSeleccionada){
+            casilla.innerHTML= '';
+            piezaMovilSeleccionada = false;
+            this.innerHTML = piezaMovil; 
+            turno = 1;
+        }
     }
 }
