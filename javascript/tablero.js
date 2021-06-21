@@ -39,7 +39,7 @@ for (var i = 0; i < tableroArray.length; i++) {
 
 
 
-/* <---------------Comienza la parte de las DAMAS---------------> */
+/* <---------------Comienza la parte de crear las DAMAS---------------> */
 
 for (var i = 0; i < tableroArray.length; i++) {  
 
@@ -63,57 +63,22 @@ for (var i = 0; i < tableroArray.length; i++) {
     }
 }
 
-/* <---------------Comienza la parte de enfocar, mover las DAMAS y TURNOS de los jugadores---------------> */
-
-/* function seleccionaPieza() {   
-    if (turno == 1) {
-        if(!piezaMovilSeleccionada && this.firstElementChild) {   
-            casilla = this; 
-            piezaMovil = this.innerHTML; 
-            this.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');  
-            piezaMovilSeleccionada = true;
-        } else if (piezaMovilSeleccionada){
-            posicion = this;
-            casilla.innerHTML= '';
-            piezaMovilSeleccionada = false;
-            this.innerHTML = piezaMovil;
-            if(posicion != casilla){
-                turno = 2;
-            } 
-        }
-    } else if (turno == 2){
-        if(!piezaMovilSeleccionada && this.firstElementChild) {   
-            casilla = this; 
-            piezaMovil = this.innerHTML; 
-            this.querySelector('img[alt="ficha_roja"]').classList.add('pintado'); 
-            piezaMovilSeleccionada = true;
-        } else if(piezaMovilSeleccionada){
-            posicion = this;
-            casilla.innerHTML= '';
-            piezaMovilSeleccionada = false;
-            this.innerHTML = piezaMovil;
-            if(posicion != casilla){
-                turno = 1;
-            } 
-        }
-    }
-} */
+/* <---------------Comienza la parte de enfocar y mover las DAMAS, tambien los TURNOS de los jugadores---------------> */
 
 function seleccionaPieza() {
     switch (turno) {
-        case 1:
-            jugador1.style.borderBottom = '4px solid #33ff33';
-            jugador1.style.borderRadius = '10px';
+        //Turno del jugador 1
+        case 1: 
             if(!piezaMovilSeleccionada && this.firstElementChild) {   
                 casilla = this; 
                 piezaMovil = this.innerHTML;
                 this.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
-                
-                //Movimientos posibles
+
+                //Movimientos posibles activados
                 ubicacion = this.id;
                 fila = ubicacion.substring(5, 6); 
                 columna = ubicacion.substring(15);
-
+                
                 if(columna == 7){ 
                     fila++;  
                     columna--;
@@ -136,40 +101,45 @@ function seleccionaPieza() {
                     }
                 }
 
+                movimiento = document.querySelectorAll('.movimiento');
+
                 piezaMovilSeleccionada = true;
-            } else if (piezaMovilSeleccionada){
-                posicion = this;
-                casilla.innerHTML= '';
-                piezaMovilSeleccionada = false;
-                this.innerHTML = piezaMovil;
+            } else if (piezaMovilSeleccionada && !this.querySelector('img[alt="ficha_blanca"]') && !this.querySelector('img[alt="ficha_roja"]')){
+                posicion = this; 
 
-
-                columna = columna + 2;
-                if(columna != 8){ 
-                    ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-                }
-                columna = columna - 2;
-                ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-
-                if(posicion != casilla){
+                if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
+                    casilla.innerHTML= '';
+                    piezaMovilSeleccionada = false;
+                    this.innerHTML = piezaMovil;
                     turno = 2;
+
+                    //Quitamos los estilos jugador 1
                     jugador1.style.borderBottom = '4px solid #c4c4c4';
+                    //Agregamos los estilos jugador 2
                     jugador2.style.borderBottom = '4px solid #33ff33';
-                } 
-            }  
+                    
+                    //Se remueve el efecto en las casillas porque ya movio la dama
+                    columna = columna + 2;
+                    if(columna != 8){ 
+                        ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                    }
+                    columna = columna - 2;
+                    ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
+                }
+            }
         break;
         
+        //Turno del jugador 2
         case 2:
             if(!piezaMovilSeleccionada && this.firstElementChild) {   
                 casilla = this; 
                 piezaMovil = this.innerHTML; 
                 this.querySelector('img[alt="ficha_roja"]').classList.add('pintado');
 
-                //Movimientos posibles
+                //Movimientos posibles activados
                 ubicacion = this.id;
                 fila = ubicacion.substring(5, 6); 
                 columna = ubicacion.substring(15);
-                ubicacionInicial = document.querySelector('#fila-' + fila +'-columna-' + columna );
 
                 if(columna == 7){ 
                     fila--;  
@@ -193,29 +163,34 @@ function seleccionaPieza() {
                     }
                 }
 
+                movimiento = document.querySelectorAll('.movimiento');
+
                 piezaMovilSeleccionada = true;
-            } else if(piezaMovilSeleccionada){
-                posicion = this;
-                casilla.innerHTML= '';
-                piezaMovilSeleccionada = false;
-                this.innerHTML = piezaMovil;
+            } else if(piezaMovilSeleccionada && !this.querySelector('img[alt="ficha_roja"]') && !this.querySelector('img[alt="ficha_blanca"]')){
+                posicion = this; 
 
-                if(columna != 1){ 
-                    columna = columna - 2;
-                    ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-                    
-                    columna = columna + 2;
-                    ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-
-                }  
-                ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-
-                if(posicion != casilla){
+                if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
+                    casilla.innerHTML= '';
+                    piezaMovilSeleccionada = false;
+                    this.innerHTML = piezaMovil;
                     turno = 1;
+
+                    //Quitamos los estilos jugador 2
                     jugador2.style.borderBottom = '4px solid #c4c4c4';
+                    //Agregamos los estilos jugador 1
                     jugador1.style.borderBottom = '4px solid #33ff33';
-                } 
-            } 
+
+                    //Se remueve el efecto en las casillas porque ya movio la dama
+                    if(columna != 1){ 
+                        columna = columna - 2;
+                        ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+
+                        columna = columna + 2;
+                        ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                    }  
+                    ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
+                }
+            }
         break;
 
         default:
@@ -223,7 +198,7 @@ function seleccionaPieza() {
     }
 }
 
-var casillas = document.querySelectorAll('td'); 
+var casillas = document.getElementsByClassName('casilla_negra'); 
 
 for(var x = 0; x < casillas.length; x++) {
     casillas[x].addEventListener('click', seleccionaPieza);
