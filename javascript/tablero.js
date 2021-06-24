@@ -1,11 +1,11 @@
 var tableroArray = [
     [0,1,0,1,0,1,0,1],
-    [1,0,1,0,1,0,0,0],
-    [0,0,0,1,0,1,0,1],
+    [1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1],
     [0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0],
-    [2,0,2,0,2,0,0,0],
-    [0,0,0,2,0,2,0,2],
+    [2,0,2,0,2,0,2,0],
+    [0,2,0,2,0,2,0,2],
     [2,0,2,0,2,0,2,0]
 ];
 
@@ -70,7 +70,7 @@ function seleccionaPieza() {
         //Turno del jugador 1
         case 1: 
             if(!piezaMovilSeleccionada && this.firstElementChild) {   
-                casilla = this; 
+                casilla = this;
                 piezaMovil = this.innerHTML;
                 this.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
 
@@ -83,9 +83,9 @@ function seleccionaPieza() {
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
-            } else if (piezaMovilSeleccionada){
-                posicion = this; 
-                if(posicion != casilla && posicion.id === movimiento[0].id && !this.firstElementChild || posicion.id === movimiento[1].id && !this.firstElementChild){
+            } else if (piezaMovilSeleccionada && !this.firstElementChild){
+                posicion = this;
+                if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
@@ -97,6 +97,16 @@ function seleccionaPieza() {
                     //Agregamos los estilos jugador 2
                     jugador2.style.borderBottom = '4px solid #33ff33';
 
+                    movimientoBlanca(fila, columna);
+                }
+            } else if (piezaMovilSeleccionada && this.querySelector('img[alt="ficha_blanca"]')){
+                posicion = this;
+                if (posicion == casilla) {
+                    this.querySelector('img[alt="ficha_blanca"]').classList.remove('pintado');
+                    celda = false;
+                    casilla.innerHTML= '';
+                    piezaMovilSeleccionada = false;
+                    this.innerHTML = piezaMovil;
                     movimientoBlanca(fila, columna);
                 }
             }
@@ -119,9 +129,9 @@ function seleccionaPieza() {
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
-            } else if(piezaMovilSeleccionada){
+            } else if(piezaMovilSeleccionada && !this.firstElementChild){
                 posicion = this; 
-                if(posicion != casilla && posicion.id === movimiento[0].id && !this.firstElementChild || posicion.id === movimiento[1].id && !this.firstElementChild){
+                if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
@@ -133,6 +143,16 @@ function seleccionaPieza() {
                     //Agregamos los estilos jugador 1
                     jugador1.style.borderBottom = '4px solid #33ff33';
 
+                    movimientoRoja(fila, columna);
+                }
+            } else if (piezaMovilSeleccionada && this.querySelector('img[alt="ficha_roja"]')){
+                posicion = this;
+                if (posicion == casilla) {
+                    this.querySelector('img[alt="ficha_roja"]').classList.remove('pintado');
+                    celda = false;
+                    casilla.innerHTML= '';
+                    piezaMovilSeleccionada = false;
+                    this.innerHTML = piezaMovil;
                     movimientoRoja(fila, columna);
                 }
             }
@@ -148,11 +168,6 @@ var casillas = document.getElementsByClassName('casilla_negra');
 for(var x = 0; x < casillas.length; x++) {
     casillas[x].addEventListener('click', seleccionaPieza);
 }
-
-/* <---------------Comienza la parte de los nombres para los JUGADORES---------------> */
-
-document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
-document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
 
 /* <---------------Comienza la parte del MENU DESPLEGABLE---------------> */
 
@@ -190,8 +205,11 @@ function movimientoBlanca(fila, columna){
     if (celda) {
         //Se coloca un efecto en las casillas donde puede mover la dama
         if(columna == 7){ 
+            console.log(columna);
             fila++;  
             columna--;
+            console.log(fila);
+            console.log(columna);
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
             ubicacionFinalUno.classList.add('movimiento');
         } else {
@@ -217,6 +235,7 @@ function movimientoBlanca(fila, columna){
         columna++;
         if(columna != 8){ 
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+            console.log(ubicacionFinalUno);
         }
         columna = columna - 2;
         ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
@@ -266,3 +285,8 @@ function movimientoRoja(fila, columna){
         ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
     }
 }
+
+/* <---------------Comienza la parte de los nombres para los JUGADORES---------------> */
+
+document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
+document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
