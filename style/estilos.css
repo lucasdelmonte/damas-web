@@ -20,26 +20,29 @@ body{
 	background-size: contain;
 }
 
-header{
-	width: 100%;
-}
-
 nav{	
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	background-color: #202020;
-	flex-wrap: nowrap;
-	height: 60px;
 	box-shadow: 0px 0px 15px 0px grey;
+}
+
+.menu{
+    margin: 14px 0px -15px 0px;
+}
+
+.menu img{
+	width: 40px;
+    height: 40px;
+	display: none;
 }
 
 nav a{
 	color: white;
 	text-decoration: none;
 	margin: 15px 20px;
-	
 }
 
 nav .enlaces a:hover{
@@ -48,22 +51,39 @@ nav .enlaces a:hover{
 }
 
 nav a .logo{
+	margin-top: -5px;
 	width: 250px;
 }
 
 @media screen and (max-width: 690px){
 	nav{
 	flex-direction: column;
+	height: 120px;
 	text-align: center;
-	height: 200px;
+	margin-bottom: 20px;
   	}
 	.logo{
 		margin-top: 5px;
 	}
+	.menu img{
+        display: inline;
+        padding: 5px;
+		margin-top: -30px;
+        border: 2px solid oldlace;
+        background-color: rgba(85, 85, 85, 0.809);
+        border-radius: 7px;
+        box-shadow: 3px 3px 3px 2px rgba(29, 29, 29, 0.479);
+    }
 	.enlaces{
 		display: flex;
 		flex-direction: column;
 	}
+	.oculto{
+        display: none;
+    }
+    .mostrado{
+        display: inline;
+    }
 } 
 
 section{
@@ -141,9 +161,6 @@ p{
 .movimiento{
 	background-color: green;
 }
-
-
-	
 
 @media screen and (max-width: 620px){
 	section{
