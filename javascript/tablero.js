@@ -205,28 +205,32 @@ function movimientoBlanca(fila, columna){
     if (celda) {
         //Se coloca un efecto en las casillas donde puede mover la dama
         if(columna == 7){ 
-            console.log(columna);
             fila++;  
             columna--;
-            console.log(fila);
-            console.log(columna);
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-            ubicacionFinalUno.classList.add('movimiento');
+            if(!ubicacionFinalUno.firstElementChild){
+                ubicacionFinalUno.classList.add('movimiento');
+            }
         } else {
             if(columna == 0){
                 fila++;
                 columna++;
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                ubicacionFinalUno.classList.add('movimiento');
+                if(!ubicacionFinalUno.firstElementChild){
+                    ubicacionFinalUno.classList.add('movimiento');
+                }
             } else {
                 fila++;  
                 columna++;   
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                ubicacionFinalUno.classList.add('movimiento');
-                
+                if(!ubicacionFinalUno.firstElementChild){
+                    ubicacionFinalUno.classList.add('movimiento');
+                }
                 columna = columna - 2;
                 ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                ubicacionFinalDos.classList.add('movimiento');
+                if(!ubicacionFinalDos.firstElementChild){
+                    ubicacionFinalDos.classList.add('movimiento');
+                }
             }
         }
     } else {
@@ -235,7 +239,6 @@ function movimientoBlanca(fila, columna){
         columna++;
         if(columna != 8){ 
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-            console.log(ubicacionFinalUno);
         }
         columna = columna - 2;
         ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
@@ -249,21 +252,29 @@ function movimientoRoja(fila, columna){
             fila--;  
             columna--;
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-            ubicacionFinalUno.classList.add('movimiento');
+            if(!ubicacionFinalUno.firstElementChild){
+                ubicacionFinalUno.classList.add('movimiento');
+            }
         } else {
             if(columna == 0){
                 fila--;  
                 columna++;   
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                ubicacionFinalUno.classList.add('movimiento');
+                if(!ubicacionFinalUno.firstElementChild){
+                    ubicacionFinalUno.classList.add('movimiento');
+                }
             } else {
                 fila--;  
                 columna--;   
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                ubicacionFinalUno.classList.add('movimiento');
+                if(!ubicacionFinalUno.firstElementChild){
+                    ubicacionFinalUno.classList.add('movimiento');
+                }
                 columna = columna + 2;
                 ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                ubicacionFinalDos.classList.add('movimiento');
+                if(!ubicacionFinalDos.firstElementChild){
+                    ubicacionFinalDos.classList.add('movimiento');
+                }
             }
         }
     } else {
