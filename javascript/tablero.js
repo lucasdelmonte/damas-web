@@ -9,7 +9,7 @@ var tableroArray = [
     [2,0,2,0,2,0,2,0]
 ];
 
-var casilla, piezaMovil, piezaMovilSeleccionada, turno = 1, posicion;
+var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1;
 
 /* <---------------Comienza la parte del TABLERO---------------> */
 
@@ -32,12 +32,9 @@ for (var i = 0; i < tableroArray.length; i++) {
                 cont--;
             }
             casilla.id = 'fila-' + i + '-columna-' + j;
-            nuevoElementoTr.appendChild(casilla);                   
+            nuevoElementoTr.appendChild(casilla);                  
         }
 }
-
-
-
 
 /* <---------------Comienza la parte de crear las DAMAS---------------> */
 
@@ -65,17 +62,46 @@ for (var i = 0; i < tableroArray.length; i++) {
 
 /* <---------------Comienza la parte de enfocar y mover las DAMAS, tambien los TURNOS de los jugadores---------------> */
 
-function seleccionaPieza() {
+/* function casillaID(){
+    $board = document.querySelectorAll('td');
+        for (var i = 0; i < $board.length; i++) {
+            if ($board[i].className == 'casilla_negra' && $board[i].querySelector('img[alt="ficha_blanca"]')) {
+                if ($board[i].firstElementChild.className == 'fichas pintado') {
+                    casilla = $board[i].id;
+                    console.log($board[i]);
+                    casilla1 = $board[i].id;
+                }
+            }
+        }
+}  */
+
+function seleccionaPieza(e) {
     switch (turno) {
         //Turno del jugador 1
         case 1: 
-            if(!piezaMovilSeleccionada && this.firstElementChild) {   
-                casilla = this;
-                piezaMovil = this.innerHTML;
-                this.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
+            if(!piezaMovilSeleccionada && e.currentTarget.firstElementChild) {   
+                /* e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.add('pintado'); */
+                /* casilla.addEventListener('click', casillaID()); */
+                /* console.log(casilla1); */
+                casilla = e.currentTarget;
+                piezaMovil = e.currentTarget.innerHTML;
+
+                // Enviando datos con el metodo post
+                var dato = casilla.id
+                fetch('https://www.twitch.tv', {
+                    method: 'POST',
+                    body: dato
+                })
+                .then (res => res.json())
+                .then (data => {
+                    console.log(data);
+                })
+
+                // Estilo a la ficha seleccionada
+                e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
 
                 //Movimientos posibles
-                ubicacion = this.id;
+                ubicacion = e.currentTarget.id;
                 fila = ubicacion.substring(5, 6); 
                 columna = ubicacion.substring(15);
                 celda = true;
@@ -83,13 +109,27 @@ function seleccionaPieza() {
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
-            } else if (piezaMovilSeleccionada && !this.firstElementChild){
-                posicion = this;
+            } else if (piezaMovilSeleccionada && !e.currentTarget.firstElementChild){
+                posicion = e.currentTarget;
+
+                // Enviando datos con el metodo post
+                var dato = posicion.id
+                fetch('https://www.twitch.tv', {
+                    method: 'POST',
+                    body: dato
+                })
+                .then (res => res.json())
+                .then (data => {
+                    console.log(data);
+                })
+                console.log('Ultima posicion: ');
+                console.log (posicion.id);
+
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
-                    this.innerHTML = piezaMovil;
+                    e.currentTarget.innerHTML = piezaMovil;
 
                     turno = 2;
                     //Quitamos los estilos jugador 1
@@ -99,14 +139,15 @@ function seleccionaPieza() {
 
                     movimientoBlanca(fila, columna);
                 }
-            } else if (piezaMovilSeleccionada && this.querySelector('img[alt="ficha_blanca"]')){
-                posicion = this;
+            } else if (piezaMovilSeleccionada && e.currentTarget.querySelector('img[alt="ficha_blanca"]')){
+                posicion = e.currentTarget;
+
                 if (posicion == casilla) {
-                    this.querySelector('img[alt="ficha_blanca"]').classList.remove('pintado');
+                    e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.remove('pintado');
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
-                    this.innerHTML = piezaMovil;
+                    e.currentTarget.innerHTML = piezaMovil;
                     movimientoBlanca(fila, columna);
                 }
             }
@@ -114,13 +155,26 @@ function seleccionaPieza() {
         
         //Turno del jugador 2
         case 2:
-            if(!piezaMovilSeleccionada && this.firstElementChild) {   
-                casilla = this; 
-                piezaMovil = this.innerHTML; 
-                this.querySelector('img[alt="ficha_roja"]').classList.add('pintado');
+            if(!piezaMovilSeleccionada && e.currentTarget.firstElementChild) {  
+                casilla = e.currentTarget; 
+                piezaMovil = e.currentTarget.innerHTML; 
+
+                // Enviando datos con el metodo post
+                var dato = casilla.id
+                fetch('https://www.twitch.tv/', {
+                    method: 'POST',
+                    body: dato
+                })
+                .then (res => res.json())
+                .then (data => {
+                    console.log(data);
+                })
+
+                // Estilo a la ficha seleccionada
+                e.currentTarget.querySelector('img[alt="ficha_roja"]').classList.add('pintado');
 
                 //Movimientos posibles
-                ubicacion = this.id;
+                ubicacion = e.currentTarget.id;
                 fila = ubicacion.substring(5, 6); 
                 columna = ubicacion.substring(15);
                 celda = true;
@@ -129,13 +183,27 @@ function seleccionaPieza() {
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
-            } else if(piezaMovilSeleccionada && !this.firstElementChild){
-                posicion = this; 
+            } else if(piezaMovilSeleccionada && !e.currentTarget.firstElementChild){
+                posicion = e.currentTarget; 
+
+                // Enviando datos con el metodo post
+                var dato = posicion.id
+                fetch('https://www.twitch.tv/', {
+                    method: 'POST',
+                    body: dato
+                })
+                .then (res => res.json())
+                .then (data => {
+                    console.log(data);
+                })
+                console.log('Ultima posicion: ');
+                console.log (posicion.id);
+                
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
-                    this.innerHTML = piezaMovil;
+                    e.currentTarget.innerHTML = piezaMovil;
 
                     turno = 1;
                     //Quitamos los estilos jugador 2
@@ -145,14 +213,14 @@ function seleccionaPieza() {
 
                     movimientoRoja(fila, columna);
                 }
-            } else if (piezaMovilSeleccionada && this.querySelector('img[alt="ficha_roja"]')){
-                posicion = this;
+            } else if (piezaMovilSeleccionada && e.currentTarget.querySelector('img[alt="ficha_roja"]')){
+                posicion = e.currentTarget;
                 if (posicion == casilla) {
-                    this.querySelector('img[alt="ficha_roja"]').classList.remove('pintado');
+                    e.currentTarget.querySelector('img[alt="ficha_roja"]').classList.remove('pintado');
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
-                    this.innerHTML = piezaMovil;
+                    e.currentTarget.innerHTML = piezaMovil;
                     movimientoRoja(fila, columna);
                 }
             }
@@ -296,6 +364,8 @@ function movimientoRoja(fila, columna){
         ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
     }
 }
+
+/* <---------------Comienza la parte del boton NUEVA PARTIDA---------------> */
 
 /* <---------------Comienza la parte de los nombres para los JUGADORES---------------> */
 
