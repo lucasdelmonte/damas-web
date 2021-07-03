@@ -124,7 +124,7 @@ p{
 	border-radius: 10px;
 }
 
-.board{
+.tablero{
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
@@ -148,7 +148,7 @@ p{
 	border: 1px solid grey;
 }
 
-.board img{
+.tablero img{
 	width: 65px;
 	height: 65px;
 	cursor: grab;
@@ -174,7 +174,7 @@ p{
 		width: 50px;
 		height: 50px;
 	}
-	.board img{
+	.tablero img{
 		width: 44px;
 		height: 44px;
 	}
@@ -192,7 +192,7 @@ p{
 		width: 33px;
 		height: 33px;
 	}
-	.board img{
+	.tablero img{
 		width: 28px;
 		height: 28px;
 	}
@@ -257,3 +257,93 @@ h4 a{
 	}
 }
 
+/* ESTILOS DEL FORMULARIO */
+
+.centrar{
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.formulario{
+	height: 422px;
+	margin: 19px auto 19px auto;
+	background-color: #202020;
+	border-radius: 8px;
+	box-shadow: 1px 1px 15px grey;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+	margin: 10px auto 10px auto;
+	width: 500px;
+}
+
+label{
+	color: white;
+	margin: 10px 0px 2px 0px;
+    font-size: 17px;
+	cursor: pointer;
+}
+
+input[type=text],
+input[type=email]{
+	margin: 7px 0px 10px 0px;
+	height: 35px;
+	border-radius: 4px;
+    border: 0px;
+}
+
+input[type=text]:hover,
+input[type=email]:hover{
+	cursor: pointer;
+	border: 2px solid rgb(0, 38, 255);
+}
+
+input[type=text]:focus,
+input[type=email]:focus{
+	background-color: rgb(131, 255, 183);
+}
+
+textarea{
+	margin: 7px 0px 10px 0px;
+	height: 120px;
+	border-radius: 4px;
+    border: 0px;
+	resize: none;
+}
+
+textarea:hover{
+	cursor: pointer;
+	border: 2px solid rgb(0, 38, 255);
+}
+
+textarea:focus{
+	background-color: rgb(131, 255, 183);
+}
+
+input[type=submit]{
+	width: 80px;
+    height: 33px;
+	margin-left: auto;
+	margin-top: 15px;
+	border-radius: 4px;
+	border: 0;
+	background-color: rgb(53, 191, 255);
+}
+
+input[type=submit]:hover{
+	cursor: pointer;
+	background-color: rgb(0, 255, 42);
+}
+
+@media screen and (max-width: 630px){
+	.formulario{
+		width: 90%;
+	}
+	form{
+		width: 90%;
+	}
+}

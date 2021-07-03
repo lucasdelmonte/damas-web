@@ -13,35 +13,30 @@ var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1;
 
 /* <---------------Comienza la parte del TABLERO---------------> */
 
-var tablero = document.getElementById('board'), cont = 0, x = 0;
+var tablero = document.getElementById('tablero'), cont = 0;
 for (var i = 0; i < tableroArray.length; i++) {
-
-        var nuevoElementoTr = document.createElement('tr');
-
-        nuevoElementoTr.className = 'fila';
-        tablero.appendChild(nuevoElementoTr);
-
-        cont = i % 2;
-        for (var j = 0; j < tableroArray.length; j++) {
-            var casilla = document.createElement('td');           
-            if (cont === 0) {
-                casilla.className = 'casilla_blanca';
-                cont++;
-            }else{
-                casilla.className = 'casilla_negra';
-                cont--;
-            }
-            casilla.id = 'fila-' + i + '-columna-' + j;
-            nuevoElementoTr.appendChild(casilla);                  
+    var nuevoElementoTr = document.createElement('tr');
+    nuevoElementoTr.className = 'fila';
+    tablero.appendChild(nuevoElementoTr);
+    cont = i % 2;
+    for (var j = 0; j < tableroArray.length; j++) {
+        var casilla = document.createElement('td');           
+        if (cont === 0) {
+            casilla.className = 'casilla_blanca';
+            cont++;
+        }else{
+            casilla.className = 'casilla_negra';
+            cont--;
         }
+        casilla.id = 'fila-' + i + '-columna-' + j;
+        nuevoElementoTr.appendChild(casilla);                  
+    }
 }
 
 /* <---------------Comienza la parte de crear las DAMAS---------------> */
 
 for (var i = 0; i < tableroArray.length; i++) {  
-
     for (var v = 0; v < tableroArray[i].length; v++) { 
-
         if (tableroArray[i][v] === 1) {            
             var damaBlanca = document.createElement('img');
             damaBlanca.src = 'img/ficha_blanca.png';
@@ -63,17 +58,23 @@ for (var i = 0; i < tableroArray.length; i++) {
 /* <---------------Comienza la parte de enfocar y mover las DAMAS, tambien los TURNOS de los jugadores---------------> */
 
 /* function casillaID(){
-    $board = document.querySelectorAll('td');
-        for (var i = 0; i < $board.length; i++) {
-            if ($board[i].className == 'casilla_negra' && $board[i].querySelector('img[alt="ficha_blanca"]')) {
-                if ($board[i].firstElementChild.className == 'fichas pintado') {
-                    casilla = $board[i].id;
-                    console.log($board[i]);
-                    casilla1 = $board[i].id;
+    tdTablero = document.querySelectorAll('td');
+        for (var i = 0; i < tdTablero.length; i++) {
+            if (tdTablero[i].className == 'casilla_negra' && tdTablero[i].querySelector('img[alt="ficha_blanca"]')) {
+                if (tdTablero[i].firstElementChild.className == 'fichas pintado') {
+                    casilla = tdTablero[i].id;
+                    console.log(tdTablero[i]);
+                    casilla1 = tdTablero[i].id;
                 }
             }
         }
 }  */
+
+var casillas = document.getElementsByClassName('casilla_negra'); 
+
+for(var x = 0; x < casillas.length; x++) {
+    casillas[x].addEventListener('click', seleccionaPieza);
+}
 
 function seleccionaPieza(e) {
     switch (turno) {
@@ -85,17 +86,6 @@ function seleccionaPieza(e) {
                 /* console.log(casilla1); */
                 casilla = e.currentTarget;
                 piezaMovil = e.currentTarget.innerHTML;
-
-                // Enviando datos con el metodo post
-                var dato = casilla.id
-                fetch('https://www.twitch.tv', {
-                    method: 'POST',
-                    body: dato
-                })
-                .then (res => res.json())
-                .then (data => {
-                    console.log(data);
-                })
 
                 // Estilo a la ficha seleccionada
                 e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
@@ -113,17 +103,11 @@ function seleccionaPieza(e) {
                 posicion = e.currentTarget;
 
                 // Enviando datos con el metodo post
-                var dato = posicion.id
+                var dato = posicion.id;
                 fetch('https://www.twitch.tv', {
                     method: 'POST',
                     body: dato
                 })
-                .then (res => res.json())
-                .then (data => {
-                    console.log(data);
-                })
-                console.log('Ultima posicion: ');
-                console.log (posicion.id);
 
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
@@ -159,17 +143,6 @@ function seleccionaPieza(e) {
                 casilla = e.currentTarget; 
                 piezaMovil = e.currentTarget.innerHTML; 
 
-                // Enviando datos con el metodo post
-                var dato = casilla.id
-                fetch('https://www.twitch.tv/', {
-                    method: 'POST',
-                    body: dato
-                })
-                .then (res => res.json())
-                .then (data => {
-                    console.log(data);
-                })
-
                 // Estilo a la ficha seleccionada
                 e.currentTarget.querySelector('img[alt="ficha_roja"]').classList.add('pintado');
 
@@ -187,17 +160,17 @@ function seleccionaPieza(e) {
                 posicion = e.currentTarget; 
 
                 // Enviando datos con el metodo post
-                var dato = posicion.id
+                var dato = posicion.id;
                 fetch('https://www.twitch.tv/', {
                     method: 'POST',
                     body: dato
                 })
+                /* Comentado por pruebas
                 .then (res => res.json())
                 .then (data => {
                     console.log(data);
-                })
-                console.log('Ultima posicion: ');
-                console.log (posicion.id);
+                }) */
+
                 
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
@@ -231,37 +204,31 @@ function seleccionaPieza(e) {
     }
 }
 
-var casillas = document.getElementsByClassName('casilla_negra'); 
-
-for(var x = 0; x < casillas.length; x++) {
-    casillas[x].addEventListener('click', seleccionaPieza);
-}
-
 /* <---------------Comienza la parte del MENU DESPLEGABLE---------------> */
 
-var $btnMenu = document.querySelector('img[alt="Menu"]'), desplegado = true;
+var btnMenu = document.querySelector('img[alt="Menu"]'), desplegado = true;
 
-$btnMenu.addEventListener('click', menuDesplegable);
+btnMenu.addEventListener('click', menuDesplegable);
 
 function menuDesplegable() {
     if (desplegado) {
-        $enlace = document.querySelectorAll('.nav');
+        enlace = document.querySelectorAll('.nav');
     
-        for (var i = 0; i < $enlace.length; i++) {
-            $enlace[i].classList.remove('oculto');
-            $enlace[i].classList.add('mostrado');
+        for (var i = 0; i < enlace.length; i++) {
+            enlace[i].classList.remove('oculto');
+            enlace[i].classList.add('mostrado');
         } 
 
-        var $nav = document.getElementById('nav').style.height = '268px';
+        var nav = document.getElementById('nav').style.height = '316px';
 
         desplegado = false;
     } else {
-        for (var i = 0; i < $enlace.length; i++) {
-            $enlace[i].classList.remove('mostrado');
-            $enlace[i].classList.add('oculto');
+        for (var i = 0; i < enlace.length; i++) {
+            enlace[i].classList.remove('mostrado');
+            enlace[i].classList.add('oculto');
         } 
 
-        var $nav = document.getElementById('nav').style.height = '120px';
+        var nav = document.getElementById('nav').style.height = '120px';
 
         desplegado = true;
     }
@@ -365,9 +332,7 @@ function movimientoRoja(fila, columna){
     }
 }
 
-/* <---------------Comienza la parte del boton NUEVA PARTIDA---------------> */
-
 /* <---------------Comienza la parte de los nombres para los JUGADORES---------------> */
 
-document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
-document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
+/* document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
+document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:'); */

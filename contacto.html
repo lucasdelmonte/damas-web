@@ -3,7 +3,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Link de Estilos -->
-	<link rel="stylesheet" href="style/normalize.css">
+    <link rel="stylesheet" href="style/normalize.css">
 	<link rel="stylesheet" href="style/estilos.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
@@ -18,28 +18,27 @@
 				<img src="img/menu_50px.png" alt="Menu" id="btn_menu">
 			</div>
 			<div class="enlaces">
-				<a href="#" class="nav oculto">Damas Online</a>
+				<a href="index.html" class="nav oculto">Damas Online</a>
 				<a href="contacto.html" class="nav oculto">Contacto</a>
 				<a href="#" class="nav oculto">Registrarse</a>
 				<a href="#" class="nav oculto">Iniciar Sesión</a>
 			</div>
 		</nav>
 
-    	<section>
-				<div class="jugador1">
-					<h2 id="jugador1">Jugador 1</h2>
-					<p id="jugador1_puntos">0</p>	
-				</div>	
-
-		    	<div id="tablero" class="tablero"></div>
-
-				<div class="jugador2">
-					<p id="jugador2_puntos">0</p>
-					<h2 id="jugador2">Jugador 2</h2>
-				</div>
-		    <input type="button" name="Nueva Partida" value="Nueva Partida" id="nueva_partida" class="button">
-		</section>
-
+		<div class="centrar">
+			<section class="formulario">
+				<form action="" id="form"> 
+					<label for="nombre">Nombre completo</label>
+					<input type="text" name="nombre" id="nombre">
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email">
+					<label for="comentario">Comentario</label>
+					<textarea name="comentario" id="comentario"></textarea>
+					<input type="submit" value="Enviar">
+				</form>
+			</section>
+		</div>
+        
 		<footer id="footer">
 			<div class="derechos">
 				<h4>Para ver las reglas del juego haga clic <a href="https://ruibalgames.com/wp-content/uploads/2015/01/Reglas-de-juego%E2%80%94Damas-Li%CC%81nea-Verde.pdf"> aquí</a>.</h4>
@@ -47,6 +46,6 @@
 			</div>
 		</footer>
 	</div>	
-	<script src="javascript/tablero.js"></script>
+	<script src="javascript/contacto.js"></script>
 </body>
 </html>
