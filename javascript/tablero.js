@@ -49,9 +49,13 @@ for (var i = 0; i < tableroArray.length; i++) {
                 alt: 'ficha_blanca',
                 className: 'fichas',
                 classList: 'pintado',
-                id: id
+                id: 'fila-' + i +'-columna-' + v
             };
+
             id.appendChild(damaBlanca.src);
+
+            localStorage.setItem('fila-' + i +'-columna-' + v, JSON.stringify(damaBlanca));
+
         }else{
             if (tableroArray[i][v] === 2) {
                 //Creamos el OBJETO dama roja 
@@ -65,9 +69,11 @@ for (var i = 0; i < tableroArray.length; i++) {
                     alt: 'ficha_roja',
                     className: 'fichas',
                     classList: 'pintado',
-                    id: id
+                    id: 'fila-' + i +'-columna-' + v
                 };
                 id.appendChild(damaRoja.src);
+
+                localStorage.setItem('fila-' + i +'-columna-' + v, JSON.stringify(damaRoja));
             }
         }
     }
@@ -125,6 +131,7 @@ function seleccionaPieza(e) {
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
                     e.currentTarget.innerHTML = piezaMovil;
+
                     turno = 2;
                     //Quitamos los estilos jugador 1
                     jugador1.style.borderBottom = '4px solid #c4c4c4';
@@ -339,23 +346,24 @@ btnCargar = document.getElementById('cargar_partida').addEventListener('click', 
 btnBorrar = document.getElementById('borrar_partida').addEventListener('click', borrarPartida);
 
 function guardarPartida(){
-    //localStorage.setItem('td', tablero);
-    tdTablero = document.querySelectorAll('td');
-    for (var i = 0; i < tdTablero.length; i++) {
-        if (tdTablero[i].className == 'casilla_negra') {
-            // Guardamos las casillas negras porque solo en esas puede haber una ficha
-            localStorage.setItem('td', tdTablero[i].id);
+    console.log('Guardar Partida');
+}
+
+function cargarPartida(){
+    for (var i = 0; i < tableroArray.length; i++) {  
+        for (var v = 0; v < tableroArray[i].length; v++) { 
+            var tableroGuardado = localStorage.getItem('fila-' + i +'-columna-' + v);
+            console.log(JSON.parse(tableroGuardado));
         }
     }
 }
 
-function cargarPartida(){
-    var tableroGuardado = localStorage.getItem('td');
-    console.log(JSON.stringify(tableroGuardado));
-}
-
 function borrarPartida(){
-    localStorage.removeItem('td');
+    for (var i = 0; i < tableroArray.length; i++) {  
+        for (var v = 0; v < tableroArray[i].length; v++) { 
+            localStorage.removeItem('fila-' + i +'-columna-' + v);
+        }
+    }
 }
 
 /* <---------------Comienza la parte de CARGAR partida---------------> */
