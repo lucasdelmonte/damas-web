@@ -38,18 +38,36 @@ for (var i = 0; i < tableroArray.length; i++) {
 for (var i = 0; i < tableroArray.length; i++) {  
     for (var v = 0; v < tableroArray[i].length; v++) { 
         if (tableroArray[i][v] === 1) {            
-            var damaBlanca = document.createElement('img');
-            damaBlanca.src = 'img/ficha_blanca.png';
-            damaBlanca.alt = 'ficha_blanca';
-            damaBlanca.className = 'fichas';   
-            document.getElementById('fila-' + i +'-columna-' + v).appendChild(damaBlanca);
+            //Creamos el OBJETO dama blanca 
+            var damaBlancaImagen = new Image();
+            damaBlancaImagen.src = 'img/ficha_blanca.png';
+            damaBlancaImagen.alt = 'ficha_blanca';
+            damaBlancaImagen.className = 'fichas';
+            id = document.getElementById('fila-' + i +'-columna-' + v);
+            var damaBlanca = {
+                src: damaBlancaImagen,
+                alt: 'ficha_blanca',
+                className: 'fichas',
+                classList: 'pintado',
+                id: id
+            };
+            id.appendChild(damaBlanca.src);
         }else{
             if (tableroArray[i][v] === 2) {
-                var damaRoja = document.createElement('img');
-                damaRoja.src = 'img/ficha_roja.png';
-                damaRoja.alt = 'ficha_roja';
-                damaRoja.className = 'fichas';
-                document.getElementById('fila-' + i +'-columna-' + v).appendChild(damaRoja); 
+                //Creamos el OBJETO dama roja 
+                var damaRojaImagen = new Image();
+                damaRojaImagen.src = 'img/ficha_roja.png';
+                damaRojaImagen.alt = 'ficha_roja';
+                damaRojaImagen.className = 'fichas';
+                id = document.getElementById('fila-' + i +'-columna-' + v);
+                var damaRoja = {
+                    src: damaRojaImagen,
+                    alt: 'ficha_roja',
+                    className: 'fichas',
+                    classList: 'pintado',
+                    id: id
+                };
+                id.appendChild(damaRoja.src);
             }
         }
     }
@@ -59,16 +77,16 @@ for (var i = 0; i < tableroArray.length; i++) {
 
 /* function casillaID(){
     tdTablero = document.querySelectorAll('td');
-        for (var i = 0; i < tdTablero.length; i++) {
-            if (tdTablero[i].className == 'casilla_negra' && tdTablero[i].querySelector('img[alt="ficha_blanca"]')) {
-                if (tdTablero[i].firstElementChild.className == 'fichas pintado') {
-                    casilla = tdTablero[i].id;
-                    console.log(tdTablero[i]);
-                    casilla1 = tdTablero[i].id;
-                }
+    for (var i = 0; i < tdTablero.length; i++) {
+        if (tdTablero[i].className == 'casilla_negra' && tdTablero[i].querySelector('img[alt="ficha_blanca"]')) {
+            if (tdTablero[i].firstElementChild.className == 'fichas pintado') {
+                casilla = tdTablero[i].id;
+                console.log(tdTablero[i]);
+                casilla1 = tdTablero[i].id;
             }
         }
-}  */
+    }
+} */
 
 var casillas = document.getElementsByClassName('casilla_negra'); 
 
@@ -81,9 +99,9 @@ function seleccionaPieza(e) {
         //Turno del jugador 1
         case 1: 
             if(!piezaMovilSeleccionada && e.currentTarget.firstElementChild) {   
-                /* e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.add('pintado'); */
-                /* casilla.addEventListener('click', casillaID()); */
-                /* console.log(casilla1); */
+                /* e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
+                casilla.addEventListener('click', casillaID());
+                console.log(casilla1); */
                 casilla = e.currentTarget;
                 piezaMovil = e.currentTarget.innerHTML;
 
@@ -102,19 +120,11 @@ function seleccionaPieza(e) {
             } else if (piezaMovilSeleccionada && !e.currentTarget.firstElementChild){
                 posicion = e.currentTarget;
 
-                // Enviando datos con el metodo post
-                var dato = posicion.id;
-                fetch('https://www.twitch.tv', {
-                    method: 'POST',
-                    body: dato
-                })
-
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
                     e.currentTarget.innerHTML = piezaMovil;
-
                     turno = 2;
                     //Quitamos los estilos jugador 1
                     jugador1.style.borderBottom = '4px solid #c4c4c4';
@@ -125,7 +135,7 @@ function seleccionaPieza(e) {
                 }
             } else if (piezaMovilSeleccionada && e.currentTarget.querySelector('img[alt="ficha_blanca"]')){
                 posicion = e.currentTarget;
-
+                
                 if (posicion == casilla) {
                     e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.remove('pintado');
                     celda = false;
@@ -159,19 +169,6 @@ function seleccionaPieza(e) {
             } else if(piezaMovilSeleccionada && !e.currentTarget.firstElementChild){
                 posicion = e.currentTarget; 
 
-                // Enviando datos con el metodo post
-                var dato = posicion.id;
-                fetch('https://www.twitch.tv/', {
-                    method: 'POST',
-                    body: dato
-                })
-                /* Comentado por pruebas
-                .then (res => res.json())
-                .then (data => {
-                    console.log(data);
-                }) */
-
-                
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
@@ -331,6 +328,37 @@ function movimientoRoja(fila, columna){
         ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
     }
 }
+
+/* <---------------Comienza la parte de GUARDAR partida---------------> */
+// localStorage: Guarda una cadena de texto, clave => valor
+// SET => Guardando
+// GET => Obtener
+
+btnGuardar = document.getElementById('guardar_partida').addEventListener('click', guardarPartida);
+btnCargar = document.getElementById('cargar_partida').addEventListener('click', cargarPartida);
+btnBorrar = document.getElementById('borrar_partida').addEventListener('click', borrarPartida);
+
+function guardarPartida(){
+    //localStorage.setItem('td', tablero);
+    tdTablero = document.querySelectorAll('td');
+    for (var i = 0; i < tdTablero.length; i++) {
+        if (tdTablero[i].className == 'casilla_negra') {
+            // Guardamos las casillas negras porque solo en esas puede haber una ficha
+            localStorage.setItem('td', tdTablero[i].id);
+        }
+    }
+}
+
+function cargarPartida(){
+    var tableroGuardado = localStorage.getItem('td');
+    console.log(JSON.stringify(tableroGuardado));
+}
+
+function borrarPartida(){
+    localStorage.removeItem('td');
+}
+
+/* <---------------Comienza la parte de CARGAR partida---------------> */
 
 /* <---------------Comienza la parte de los nombres para los JUGADORES---------------> */
 
