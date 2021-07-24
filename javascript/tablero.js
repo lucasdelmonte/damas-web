@@ -19,7 +19,7 @@ var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1;
 
 function generarTablero(){
     var tablero = document.getElementById('tablero'), cont = 0;
-    for (var i = 0; i < objTablero.tablero.length; i++) {
+    for (var i = 0; i < tableroArray.length; i++) {
         var nuevoElementoTr = document.createElement('tr');
         nuevoElementoTr.className = 'fila';
         tablero.appendChild(nuevoElementoTr);
@@ -34,7 +34,6 @@ function generarTablero(){
                 cont--;
             }
             casilla.id = 'fila-' + i + '-columna-' + j;
-
             nuevoElementoTr.appendChild(casilla);                  
         }
     }
@@ -42,7 +41,6 @@ function generarTablero(){
     moverPiezas();
 }
 
-//window.onload = generarTablero;
 generarTablero();
 
 
@@ -404,18 +402,26 @@ function nuevaPartida(){
 }
 
 function guardarPartida(){
+    localStorage.setItem('partida', JSON.stringify(tableroArray));
+    localStorage.setItem('turno', turno);
 }
 
 function cargarPartida(){
-    reiniciarTablero();
+    // Trae la partida guardada
+    tableroArray = JSON.parse(localStorage.getItem('partida'));
+    turno = localStorage.getItem('turno');
+    debugger;
+    console.log(tableroArray);
+    // Reinicia el tablero
+    tablero.innerHTML = '';
+    generarTablero();
+    cambiarTurno(turno);
+    moverPiezas();
 }
 
 function borrarPartida(){
-    
-} 
-
-function reiniciarTablero(){
-    
+    localStorage.removeItem('partida');
+    localStorage.removeItem('turno');
 }
 
 /* <---------------Comienza la parte de CARGAR partida---------------> */
@@ -425,3 +431,6 @@ function reiniciarTablero(){
 /* document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
 document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:'); */
 
+/* var puntosJ1 = parseInt(document.getElementById('jugador1_puntos').textContent);
+puntosJ1++;
+document.getElementById('jugador1_puntos').innerHTML = puntosJ1; */
