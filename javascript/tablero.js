@@ -9,77 +9,84 @@ var tableroArray = [
     [2,0,2,0,2,0,2,0]
 ];
 
+objTablero = {
+    tablero: tableroArray
+}
+
 var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1;
 
 /* <---------------Comienza la parte del TABLERO---------------> */
 
-var tablero = document.getElementById('tablero'), cont = 0;
-for (var i = 0; i < tableroArray.length; i++) {
-    var nuevoElementoTr = document.createElement('tr');
-    nuevoElementoTr.className = 'fila';
-    tablero.appendChild(nuevoElementoTr);
-    cont = i % 2;
-    for (var j = 0; j < tableroArray.length; j++) {
-        var casilla = document.createElement('td');           
-        if (cont === 0) {
-            casilla.className = 'casilla_blanca';
-            cont++;
-        }else{
-            casilla.className = 'casilla_negra';
-            cont--;
+function generarTablero(){
+    var tablero = document.getElementById('tablero'), cont = 0;
+    for (var i = 0; i < objTablero.tablero.length; i++) {
+        var nuevoElementoTr = document.createElement('tr');
+        nuevoElementoTr.className = 'fila';
+        tablero.appendChild(nuevoElementoTr);
+        cont = i % 2;
+        for (var j = 0; j < tableroArray.length; j++) {
+            var casilla = document.createElement('td');           
+            if (cont === 0) {
+                casilla.className = 'casilla_blanca';
+                cont++;
+            }else{
+                casilla.className = 'casilla_negra';
+                cont--;
+            }
+            casilla.id = 'fila-' + i + '-columna-' + j;
+
+            nuevoElementoTr.appendChild(casilla);                  
         }
-        casilla.id = 'fila-' + i + '-columna-' + j;
-        nuevoElementoTr.appendChild(casilla);                  
     }
+    generarDamas();
+    moverPiezas();
 }
+
+//window.onload = generarTablero;
+generarTablero();
+
 
 /* <---------------Comienza la parte de crear las DAMAS---------------> */
 
-for (var i = 0; i < tableroArray.length; i++) {  
-    for (var v = 0; v < tableroArray[i].length; v++) { 
-        if (tableroArray[i][v] === 1) {            
-            //Creamos el OBJETO dama blanca 
-            var damaBlancaImagen = new Image();
-            damaBlancaImagen.src = 'img/ficha_blanca.png';
-            damaBlancaImagen.alt = 'ficha_blanca';
-            damaBlancaImagen.className = 'fichas';
-            id = document.getElementById('fila-' + i +'-columna-' + v);
-            var damaBlanca = {
-                src: damaBlancaImagen,
-                alt: 'ficha_blanca',
-                className: 'fichas',
-                classList: 'pintado',
-                id: 'fila-' + i +'-columna-' + v
-            };
-
-            id.appendChild(damaBlanca.src);
-
-            localStorage.setItem('fila-' + i +'-columna-' + v, JSON.stringify(damaBlanca));
-
-        }else{
-            if (tableroArray[i][v] === 2) {
-                //Creamos el OBJETO dama roja 
-                var damaRojaImagen = new Image();
-                damaRojaImagen.src = 'img/ficha_roja.png';
-                damaRojaImagen.alt = 'ficha_roja';
-                damaRojaImagen.className = 'fichas';
+function generarDamas(){
+    for (var i = 0; i < tableroArray.length; i++) {  
+        for (var v = 0; v < tableroArray[i].length; v++) { 
+            if (tableroArray[i][v] === 1) {            
+                // Creamos el OBJETO dama blanca 
+                var damaBlancaImagen = new Image();
+                damaBlancaImagen.src = 'img/ficha_blanca.png';
+                damaBlancaImagen.alt = 'ficha_blanca';
+                damaBlancaImagen.className = 'fichas';
                 id = document.getElementById('fila-' + i +'-columna-' + v);
-                var damaRoja = {
-                    src: damaRojaImagen,
-                    alt: 'ficha_roja',
+                var damaBlanca = {
+                    src: damaBlancaImagen,
+                    alt: 'ficha_blanca',
                     className: 'fichas',
                     classList: 'pintado',
-                    id: 'fila-' + i +'-columna-' + v
+                    id: 'fila-' + i +'-columna-' + v,
                 };
-                id.appendChild(damaRoja.src);
-
-                localStorage.setItem('fila-' + i +'-columna-' + v, JSON.stringify(damaRoja));
+                id.appendChild(damaBlanca.src);
+            }else{
+                if (tableroArray[i][v] === 2) {
+                    // Creamos el OBJETO dama roja 
+                    var damaRojaImagen = new Image();
+                    damaRojaImagen.src = 'img/ficha_roja.png';
+                    damaRojaImagen.alt = 'ficha_roja';
+                    damaRojaImagen.className = 'fichas';
+                    id = document.getElementById('fila-' + i +'-columna-' + v);
+                    var damaRoja = {
+                        src: damaRojaImagen,
+                        alt: 'ficha_roja',
+                        className: 'fichas',
+                        classList: 'pintado',
+                        id: 'fila-' + i +'-columna-' + v
+                    };
+                    id.appendChild(damaRoja.src);
+                }
             }
         }
     }
 }
-
-/* <---------------Comienza la parte de enfocar y mover las DAMAS, tambien los TURNOS de los jugadores---------------> */
 
 /* function casillaID(){
     tdTablero = document.querySelectorAll('td');
@@ -94,67 +101,65 @@ for (var i = 0; i < tableroArray.length; i++) {
     }
 } */
 
-var casillas = document.getElementsByClassName('casilla_negra'); 
+/* <---------------Comienza la parte de enfocar y mover las DAMAS, tambien los TURNOS de los jugadores---------------> */
 
-for(var x = 0; x < casillas.length; x++) {
-    casillas[x].addEventListener('click', seleccionaPieza);
+function moverPiezas(){
+    var casillas = document.getElementsByClassName('casilla_negra'); 
+    
+    for(var x = 0; x < casillas.length; x++) {
+        casillas[x].addEventListener('click', seleccionaPieza);
+    }
 }
 
 function seleccionaPieza(e) {
     switch (turno) {
-        //Turno del jugador 1
+        // Turno del jugador 1
         case 1: 
-            if(!piezaMovilSeleccionada && e.currentTarget.firstElementChild) {   
-                /* e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
-                casilla.addEventListener('click', casillaID());
-                console.log(casilla1); */
+            if(!piezaMovilSeleccionada && e.currentTarget.firstElementChild) {
+                
                 casilla = e.currentTarget;
                 piezaMovil = e.currentTarget.innerHTML;
 
                 // Estilo a la ficha seleccionada
                 e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.add('pintado');
 
-                //Movimientos posibles
+                // Movimientos posibles
                 ubicacion = e.currentTarget.id;
                 fila = ubicacion.substring(5, 6); 
                 columna = ubicacion.substring(15);
-                celda = true;
-                movimientoBlanca(fila, columna);
+                celda = true; 
+                movimientoBlanca(fila, columna);           
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
             } else if (piezaMovilSeleccionada && !e.currentTarget.firstElementChild){
                 posicion = e.currentTarget;
-
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
                     e.currentTarget.innerHTML = piezaMovil;
 
+                    // Cambio de turnos
                     turno = 2;
-                    //Quitamos los estilos jugador 1
-                    jugador1.style.borderBottom = '4px solid #c4c4c4';
-                    //Agregamos los estilos jugador 2
-                    jugador2.style.borderBottom = '4px solid #33ff33';
-
-                    movimientoBlanca(fila, columna);
+                    cambiarTurno(turno);
+                    tableroArray[fila][columna] = 0;
+                    movimientoBlanca(fila, columna, posicion, movimiento);
                 }
             } else if (piezaMovilSeleccionada && e.currentTarget.querySelector('img[alt="ficha_blanca"]')){
                 posicion = e.currentTarget;
-                
                 if (posicion == casilla) {
                     e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.remove('pintado');
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
                     e.currentTarget.innerHTML = piezaMovil;
-                    movimientoBlanca(fila, columna);
+                    movimientoBlanca(fila, columna, posicion, movimiento);
                 }
             }
         break;
         
-        //Turno del jugador 2
+        // Turno del jugador 2
         case 2:
             if(!piezaMovilSeleccionada && e.currentTarget.firstElementChild) {  
                 casilla = e.currentTarget; 
@@ -163,13 +168,12 @@ function seleccionaPieza(e) {
                 // Estilo a la ficha seleccionada
                 e.currentTarget.querySelector('img[alt="ficha_roja"]').classList.add('pintado');
 
-                //Movimientos posibles
+                // Movimientos posibles
                 ubicacion = e.currentTarget.id;
                 fila = ubicacion.substring(5, 6); 
                 columna = ubicacion.substring(15);
                 celda = true;
                 movimientoRoja(fila, columna);
-
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
@@ -182,13 +186,11 @@ function seleccionaPieza(e) {
                     piezaMovilSeleccionada = false;
                     e.currentTarget.innerHTML = piezaMovil;
 
+                    // Cambio de turnos
                     turno = 1;
-                    //Quitamos los estilos jugador 2
-                    jugador2.style.borderBottom = '4px solid #c4c4c4';
-                    //Agregamos los estilos jugador 1
-                    jugador1.style.borderBottom = '4px solid #33ff33';
-
-                    movimientoRoja(fila, columna);
+                    cambiarTurno(turno);
+                    tableroArray[fila][columna] = 0;
+                    movimientoRoja(fila, columna, posicion, movimiento);
                 }
             } else if (piezaMovilSeleccionada && e.currentTarget.querySelector('img[alt="ficha_roja"]')){
                 posicion = e.currentTarget;
@@ -198,13 +200,28 @@ function seleccionaPieza(e) {
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
                     e.currentTarget.innerHTML = piezaMovil;
-                    movimientoRoja(fila, columna);
+                    
+                    movimientoRoja(fila, columna, posicion, movimiento);
                 }
             }
         break;
 
         default:
         break;
+    }
+}
+
+function cambiarTurno(turno){
+    if (turno == 1) {
+        //Quitamos los estilos jugador 2
+        jugador2.style.borderBottom = '4px solid #c4c4c4';
+        //Agregamos los estilos jugador 1
+        jugador1.style.borderBottom = '4px solid #33ff33';
+    } else {
+        //Quitamos los estilos jugador 1
+        jugador1.style.borderBottom = '4px solid #c4c4c4';
+        //Agregamos los estilos jugador 2
+        jugador2.style.borderBottom = '4px solid #33ff33';
     }
 }
 
@@ -240,7 +257,7 @@ function menuDesplegable() {
 
 /* <---------------Comienza la parte de los MOVIMIENTOS VALIDOS---------------> */
 
-function movimientoBlanca(fila, columna){
+function movimientoBlanca(fila, columna, posicion, movimiento){
     if (celda) {
         //Se coloca un efecto en las casillas donde puede mover la dama
         if(columna == 7){ 
@@ -276,15 +293,35 @@ function movimientoBlanca(fila, columna){
         //Se remueve el efecto en las casillas porque ya movio la dama
         fila++;
         columna++;
-        if(columna != 8){ 
-            ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+        if(columna == 1){ 
+            ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+            if (posicion.id === movimiento[0].id) {
+                tableroArray[fila][columna] = 1;
+            }
+        } else{
+            if (columna == 8) {
+                columna = columna - 2;
+                ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                if (posicion.id === movimiento[0].id) {
+                    tableroArray[fila][columna] = 1;
+                }
+            } else {
+                columna = columna - 2;
+                ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                if (posicion.id === movimiento[0].id) {
+                    tableroArray[fila][columna] = 1;
+                }
+                columna = columna + 2;
+                ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                if (posicion.id === movimiento[1].id) {
+                    tableroArray[fila][columna] = 1;
+                }
+            }
         }
-        columna = columna - 2;
-        ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
     }
 }
 
-function movimientoRoja(fila, columna){
+function movimientoRoja(fila, columna, posicion, movimiento){
     if (celda) {
         //Se coloca un efecto en las casillas donde puede mover la dama
         if(columna == 7){ 
@@ -317,22 +354,35 @@ function movimientoRoja(fila, columna){
             }
         }
     } else {
-        //Se remueve el efecto en las casillas porque ya movio la dama
+        // Se remueve el efecto en las casillas porque ya movio la dama
         fila--;
-        if (columna == 0) {
-            columna++;
+        if (columna == 7) {
+            columna--;
+            ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
+            // Se actualiza la matriz
+            if (posicion.id === movimiento[0].id) {
+                tableroArray[fila][columna] = 2;
+            }
         } else {
-            if (columna == 8) {
-                columna--;
+            if (columna == 0) {
+                columna++;
+                ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
+                if (posicion.id === movimiento[0].id) {
+                    tableroArray[fila][columna] = 2;
+                }
             } else {
                 columna--;
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-
+                if (posicion.id === movimiento[0].id) {
+                    tableroArray[fila][columna] = 2;
+                }
                 columna = columna + 2;
                 ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                if (posicion.id === movimiento[1].id) {
+                    tableroArray[fila][columna] = 2;
+                }
             }
         }
-        ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
     }
 }
 
@@ -341,29 +391,31 @@ function movimientoRoja(fila, columna){
 // SET => Guardando
 // GET => Obtener
 
+btnNuevaPartida = document.getElementById('nueva_partida').addEventListener('click', nuevaPartida);
 btnGuardar = document.getElementById('guardar_partida').addEventListener('click', guardarPartida);
 btnCargar = document.getElementById('cargar_partida').addEventListener('click', cargarPartida);
 btnBorrar = document.getElementById('borrar_partida').addEventListener('click', borrarPartida);
 
+function nuevaPartida(){
+    // Sirve para ver la matriz de una mejor manera 
+    for (let i = 0; i < objTablero.tablero.length; i++) {
+        console.log(objTablero.tablero[i]);
+    } 
+}
+
 function guardarPartida(){
-    console.log('Guardar Partida');
 }
 
 function cargarPartida(){
-    for (var i = 0; i < tableroArray.length; i++) {  
-        for (var v = 0; v < tableroArray[i].length; v++) { 
-            var tableroGuardado = localStorage.getItem('fila-' + i +'-columna-' + v);
-            console.log(JSON.parse(tableroGuardado));
-        }
-    }
+    reiniciarTablero();
 }
 
 function borrarPartida(){
-    for (var i = 0; i < tableroArray.length; i++) {  
-        for (var v = 0; v < tableroArray[i].length; v++) { 
-            localStorage.removeItem('fila-' + i +'-columna-' + v);
-        }
-    }
+    
+} 
+
+function reiniciarTablero(){
+    
 }
 
 /* <---------------Comienza la parte de CARGAR partida---------------> */
@@ -372,3 +424,4 @@ function borrarPartida(){
 
 /* document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
 document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:'); */
+
