@@ -392,13 +392,25 @@ function movimientoRoja(fila, columna, posicion, movimiento){
 btnNuevaPartida = document.getElementById('nueva_partida').addEventListener('click', nuevaPartida);
 btnGuardar = document.getElementById('guardar_partida').addEventListener('click', guardarPartida);
 btnCargar = document.getElementById('cargar_partida').addEventListener('click', cargarPartida);
-btnBorrar = document.getElementById('borrar_partida').addEventListener('click', borrarPartida);
 
 function nuevaPartida(){
-    // Sirve para ver la matriz de una mejor manera 
-    for (let i = 0; i < objTablero.tablero.length; i++) {
-        console.log(objTablero.tablero[i]);
-    } 
+    var tableroNuevo = [
+        [0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0],
+        [0,1,0,1,0,1,0,1],
+        [0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0],
+        [2,0,2,0,2,0,2,0],
+        [0,2,0,2,0,2,0,2],
+        [2,0,2,0,2,0,2,0]
+    ];
+    // Reinicia el tablero
+    tableroArray = tableroNuevo;
+    tablero.innerHTML = '';
+    turno = 1;
+    generarTablero();
+    moverPiezas();
+    cambiarTurno(turno);
 }
 
 function guardarPartida(){
@@ -408,28 +420,22 @@ function guardarPartida(){
 
 function cargarPartida(){
     // Trae la partida guardada
-    tableroArray = JSON.parse(localStorage.getItem('partida'));
-    turno = localStorage.getItem('turno');
-    debugger;
-    console.log(tableroArray);
-    // Reinicia el tablero
+    tableroGuardado = JSON.parse(localStorage.getItem('partida'));
+    turno = parseInt(localStorage.getItem('turno'));
+    // Carga el tablero guardado
+    tableroArray = tableroGuardado;
     tablero.innerHTML = '';
     generarTablero();
-    cambiarTurno(turno);
     moverPiezas();
-}
-
-function borrarPartida(){
-    localStorage.removeItem('partida');
-    localStorage.removeItem('turno');
+    cambiarTurno(turno);
 }
 
 /* <---------------Comienza la parte de CARGAR partida---------------> */
 
 /* <---------------Comienza la parte de los nombres para los JUGADORES---------------> */
 
-/* document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
-document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:'); */
+document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
+document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
 
 /* var puntosJ1 = parseInt(document.getElementById('jugador1_puntos').textContent);
 puntosJ1++;
