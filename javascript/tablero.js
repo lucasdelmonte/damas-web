@@ -1,19 +1,15 @@
 var tableroArray = [
     [0,1,0,1,0,1,0,1],
-    [1,0,1,0,1,0,1,0],
-    [0,1,0,1,0,1,0,1],
+    [1,0,0,0,0,0,0,0],
+    [0,2,0,1,0,1,0,1],
+    [1,0,0,0,2,0,2,0],
     [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [2,0,2,0,2,0,2,0],
+    [2,0,0,0,2,0,2,0],
     [0,2,0,2,0,2,0,2],
     [2,0,2,0,2,0,2,0]
 ];
 
-objTablero = {
-    tablero: tableroArray
-}
-
-var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1;
+var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1, comer = false, comerUno = false, comerDos = false;
 
 /* <---------------Comienza la parte del TABLERO---------------> */
 
@@ -42,9 +38,10 @@ function generarTablero(){
 }
 
 generarTablero();
+nombreJugadores();
 
 
-/* <---------------Comienza la parte de crear las DAMAS---------------> */
+/* <---------------Comienza la parte de CREAR las damas---------------> */
 
 function generarDamas(){
     for (var i = 0; i < tableroArray.length; i++) {  
@@ -99,7 +96,7 @@ function generarDamas(){
     }
 } */
 
-/* <---------------Comienza la parte de enfocar y mover las DAMAS, tambien los TURNOS de los jugadores---------------> */
+/* <---------------Comienza la parte de ENFOCAR y MOVER las damas, tambien los TURNOS de los jugadores---------------> */
 
 function moverPiezas(){
     var casillas = document.getElementsByClassName('casilla_negra'); 
@@ -114,7 +111,6 @@ function seleccionaPieza(e) {
         // Turno del jugador 1
         case 1: 
             if(!piezaMovilSeleccionada && e.currentTarget.firstElementChild) {
-                
                 casilla = e.currentTarget;
                 piezaMovil = e.currentTarget.innerHTML;
 
@@ -123,10 +119,7 @@ function seleccionaPieza(e) {
 
                 // Movimientos posibles
                 ubicacion = e.currentTarget.id;
-                fila = ubicacion.substring(5, 6); 
-                columna = ubicacion.substring(15);
-                celda = true; 
-                movimientoBlanca(fila, columna);           
+                verificarUbicacionBlanca(ubicacion);
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
@@ -147,6 +140,7 @@ function seleccionaPieza(e) {
             } else if (piezaMovilSeleccionada && e.currentTarget.querySelector('img[alt="ficha_blanca"]')){
                 posicion = e.currentTarget;
                 if (posicion == casilla) {
+                    // Quitamos estilos porque volvio a seleccionar la misma dama
                     e.currentTarget.querySelector('img[alt="ficha_blanca"]').classList.remove('pintado');
                     celda = false;
                     casilla.innerHTML= '';
@@ -163,21 +157,17 @@ function seleccionaPieza(e) {
                 casilla = e.currentTarget; 
                 piezaMovil = e.currentTarget.innerHTML; 
 
-                // Estilo a la ficha seleccionada
+                // Estilo a la dama seleccionada
                 e.currentTarget.querySelector('img[alt="ficha_roja"]').classList.add('pintado');
 
                 // Movimientos posibles
                 ubicacion = e.currentTarget.id;
-                fila = ubicacion.substring(5, 6); 
-                columna = ubicacion.substring(15);
-                celda = true;
-                movimientoRoja(fila, columna);
+                verificarUbicacionRoja(ubicacion);
                 movimiento = document.querySelectorAll('.movimiento');
 
                 piezaMovilSeleccionada = true;
             } else if(piezaMovilSeleccionada && !e.currentTarget.firstElementChild){
-                posicion = e.currentTarget; 
-
+                posicion = e.currentTarget;
                 if(posicion != casilla && posicion.id === movimiento[0].id || posicion.id === movimiento[1].id){
                     celda = false;
                     casilla.innerHTML= '';
@@ -193,12 +183,12 @@ function seleccionaPieza(e) {
             } else if (piezaMovilSeleccionada && e.currentTarget.querySelector('img[alt="ficha_roja"]')){
                 posicion = e.currentTarget;
                 if (posicion == casilla) {
+                    // Quitamos estilos porque volvio a seleccionar la misma dama
                     e.currentTarget.querySelector('img[alt="ficha_roja"]').classList.remove('pintado');
                     celda = false;
                     casilla.innerHTML= '';
                     piezaMovilSeleccionada = false;
                     e.currentTarget.innerHTML = piezaMovil;
-                    
                     movimientoRoja(fila, columna, posicion, movimiento);
                 }
             }
@@ -223,37 +213,14 @@ function cambiarTurno(turno){
     }
 }
 
-/* <---------------Comienza la parte del MENU DESPLEGABLE---------------> */
-
-var btnMenu = document.querySelector('img[alt="Menu"]'), desplegado = true;
-
-btnMenu.addEventListener('click', menuDesplegable);
-
-function menuDesplegable() {
-    if (desplegado) {
-        enlace = document.querySelectorAll('.nav');
-    
-        for (var i = 0; i < enlace.length; i++) {
-            enlace[i].classList.remove('oculto');
-            enlace[i].classList.add('mostrado');
-        } 
-
-        var nav = document.getElementById('nav').style.height = '316px';
-
-        desplegado = false;
-    } else {
-        for (var i = 0; i < enlace.length; i++) {
-            enlace[i].classList.remove('mostrado');
-            enlace[i].classList.add('oculto');
-        } 
-
-        var nav = document.getElementById('nav').style.height = '120px';
-
-        desplegado = true;
-    }
-}
-
 /* <---------------Comienza la parte de los MOVIMIENTOS VALIDOS---------------> */
+
+function verificarUbicacionBlanca(ubicacion){
+    fila = ubicacion.substring(5, 6); 
+    columna = ubicacion.substring(15);
+    celda = true; 
+    return movimientoBlanca(fila, columna);
+}
 
 function movimientoBlanca(fila, columna, posicion, movimiento){
     if (celda) {
@@ -264,6 +231,20 @@ function movimientoBlanca(fila, columna, posicion, movimiento){
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
             if(!ubicacionFinalUno.firstElementChild){
                 ubicacionFinalUno.classList.add('movimiento');
+                comer = false;
+            } else { // Hay una ficha roja?
+                if (ubicacionFinalUno.firstElementChild.alt == 'ficha_roja') {
+                    console.log('Si, hay una ficha roja');
+                    fila++;  
+                    columna--;
+                    ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
+                    // Puedo comer esa ficha o hay una ocupando el lugar?
+                    if (ubicacionFinalUno.firstElementChild == null) { 
+                        console.log('No, no hay ninguna ficha en esa posicion');
+                        ubicacionFinalUno.classList.add('movimiento');
+                        comer = true;
+                    }
+                }
             }
         } else {
             if(columna == 0){
@@ -272,19 +253,28 @@ function movimientoBlanca(fila, columna, posicion, movimiento){
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
                 if(!ubicacionFinalUno.firstElementChild){
                     ubicacionFinalUno.classList.add('movimiento');
+                    comer = false;
+                } else { // Hay una ficha roja?
+                    if (ubicacionFinalUno.firstElementChild.alt == 'ficha_roja') {
+                        console.log('Si, hay una ficha roja');
+                        fila++;  
+                        columna++;
+                        ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
+                        // Puedo comer esa ficha o hay una ocupando el lugar?
+                        if (ubicacionFinalUno.firstElementChild == null) { 
+                            console.log('No, no hay ninguna ficha en esa posicion');
+                            ubicacionFinalUno.classList.add('movimiento');
+                            comer = true;
+                        }
+                    }
                 }
-            } else {
-                fila++;  
-                columna++;   
+            } else {  
+                fila++;
+                columna--;
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                if(!ubicacionFinalUno.firstElementChild){
-                    ubicacionFinalUno.classList.add('movimiento');
-                }
-                columna = columna - 2;
+                columna = columna + 2;
                 ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                if(!ubicacionFinalDos.firstElementChild){
-                    ubicacionFinalDos.classList.add('movimiento');
-                }
+                comerRojas(ubicacionFinalUno, ubicacionFinalDos); 
             }
         }
     } else {
@@ -293,30 +283,119 @@ function movimientoBlanca(fila, columna, posicion, movimiento){
         columna++;
         if(columna == 1){ 
             ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-            if (posicion.id === movimiento[0].id) {
-                tableroArray[fila][columna] = 1;
-            }
-        } else{
-            if (columna == 8) {
-                columna = columna - 2;
+            if (comer) {
+                fila++;
+                columna++;
                 ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
                 if (posicion.id === movimiento[0].id) {
                     tableroArray[fila][columna] = 1;
                 }
             } else {
-                columna = columna - 2;
-                ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                console.log('No puede comer');
+                ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento')
                 if (posicion.id === movimiento[0].id) {
                     tableroArray[fila][columna] = 1;
                 }
-                columna = columna + 2;
-                ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-                if (posicion.id === movimiento[1].id) {
-                    tableroArray[fila][columna] = 1;
+            }
+        } else{
+            if (columna == 8) {
+                columna = columna - 2;
+                if (comer) {
+                    fila++;
+                    columna--;
+                    ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                    if (posicion.id === movimiento[0].id) {
+                        tableroArray[fila][columna] = 1;
+                    }
+                } else {
+                    console.log('No puede comer');
+                    ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                    if (posicion.id === movimiento[0].id) {
+                        tableroArray[fila][columna] = 1;
+                    }
+                }
+            } else {
+                if (comerUno) {
+                    console.log('Puede comer la posicion 1');
+                    ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno ).classList.remove('movimiento');
+                    if (posicion.id === movimiento[0].id) {
+                        tableroArray[fila][columna] = 1;
+                    }
+                } else {
+                    console.log('No puede comer la posicion 1');
+                    ubicacionFinalUno.classList.remove('movimiento');
+                    if (posicion.id === movimiento[0].id) {
+                        tableroArray[fila][columna] = 1;
+                    }
+                }
+
+                if (comerDos) {
+                    console.log('Puede comer la posicion 2');
+                    ubicacionFinalDos = document.querySelector('#fila-' + filaUbiUDos +'-columna-' + columnaUbiDos ).classList.remove('movimiento');
+                    if (posicion.id === movimiento[1].id) {
+                        tableroArray[fila][columna] = 1;
+                    }
+                }else {
+                    console.log('No puede comer la posicion 2');
+                    ubicacionFinalDos.classList.remove('movimiento');
+                    if (posicion.id === movimiento[1].id) {
+                        tableroArray[fila][columna] = 1;
+                    }
                 }
             }
         }
     }
+}
+
+function comerRojas(ubicacionFinalUno, ubicacionFinalDos){
+    
+    console.log(ubicacionFinalUno);
+
+    if(!ubicacionFinalUno.firstElementChild){
+        ubicacionFinalUno.classList.add('movimiento');
+        comerUno = false;
+    } else {
+        if (ubicacionFinalUno.firstElementChild.alt == 'ficha_roja') {
+            console.log('La primera ubicacion tiene un hijo y es roja');
+            filaUbiUno = parseInt(fila) + 2;
+            columnaUbiUno = parseInt(columna) - 2;
+            ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
+            if (ubicacionFinalUno.firstElementChild == null) { 
+                console.log('No, no hay ninguna ficha en esa posicion');
+                ubicacionFinalUno.classList.add('movimiento');
+                comerUno = true;
+            }
+        }
+    } 
+
+    console.log('<=========== CORTE ===========>');
+
+    console.log(ubicacionFinalDos);
+
+    if(!ubicacionFinalDos.firstElementChild){
+        ubicacionFinalDos.classList.add('movimiento');
+        comerDos = false;
+    } else {
+        if (ubicacionFinalDos.firstElementChild.alt == 'ficha_roja') {
+            console.log('La segunda ubicacion tiene un hijo y es roja');
+            filaUbiUDos = parseInt(fila) + 2;
+            columnaUbiDos = parseInt(columna) + 2;
+            ubicacionFinalDos = document.querySelector('#fila-' + filaUbiUDos +'-columna-' + columnaUbiDos );
+            if (ubicacionFinalDos.firstElementChild == null) { 
+                console.log('No, no hay ninguna ficha en esa posicion');
+                ubicacionFinalDos.classList.add('movimiento');
+                comerDos = true;
+            }
+        }
+    } 
+
+}
+
+function verificarUbicacionRoja(ubicacion){
+    fila = ubicacion.substring(5, 6); 
+    columna = ubicacion.substring(15);
+    celda = true; 
+    return movimientoRoja(fila, columna);
 }
 
 function movimientoRoja(fila, columna, posicion, movimiento){
@@ -357,7 +436,6 @@ function movimientoRoja(fila, columna, posicion, movimiento){
         if (columna == 7) {
             columna--;
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
-            // Se actualiza la matriz
             if (posicion.id === movimiento[0].id) {
                 tableroArray[fila][columna] = 2;
             }
@@ -384,7 +462,32 @@ function movimientoRoja(fila, columna, posicion, movimiento){
     }
 }
 
-/* <---------------Comienza la parte de GUARDAR partida---------------> */
+/* <---------------Comienza la parte del MENU DESPLEGABLE---------------> */
+
+var btnMenu = document.querySelector('img[alt="Menu"]'), desplegado = true;
+
+btnMenu.addEventListener('click', menuDesplegable);
+
+function menuDesplegable() {
+    if (desplegado) {
+        enlace = document.querySelectorAll('.nav');
+        for (var i = 0; i < enlace.length; i++) {
+            enlace[i].classList.remove('oculto');
+            enlace[i].classList.add('mostrado');
+        } 
+        var nav = document.getElementById('nav').style.height = '316px';
+        desplegado = false;
+    } else {
+        for (var i = 0; i < enlace.length; i++) {
+            enlace[i].classList.remove('mostrado');
+            enlace[i].classList.add('oculto');
+        } 
+        var nav = document.getElementById('nav').style.height = '120px';
+        desplegado = true;
+    }
+}
+
+/* <---------------Comienza la parte de GUARDAR, CARGAR y arrancar una NUEVA partida---------------> */
 // localStorage: Guarda una cadena de texto, clave => valor
 // SET => Guardando
 // GET => Obtener
@@ -411,32 +514,48 @@ function nuevaPartida(){
     generarTablero();
     moverPiezas();
     cambiarTurno(turno);
+    nombreJugadores();
 }
 
 function guardarPartida(){
+    // Guarda el estado del tablero al momento de darle click al boton Guardar Partida
     localStorage.setItem('partida', JSON.stringify(tableroArray));
+    // Guarda el estado de los turnos y nombre de los jugadores
     localStorage.setItem('turno', turno);
+    localStorage.setItem('jugador1', nombreJ1);
+    localStorage.setItem('jugador2', nombreJ2);
 }
 
 function cargarPartida(){
     // Trae la partida guardada
     tableroGuardado = JSON.parse(localStorage.getItem('partida'));
     turno = parseInt(localStorage.getItem('turno'));
+    nombreJ1 = localStorage.getItem('jugador1');
+    nombreJ2 = localStorage.getItem('jugador2');
     // Carga el tablero guardado
     tableroArray = tableroGuardado;
+    // Limpia el tablero
     tablero.innerHTML = '';
+    // Carga el tablero con piezas, turnos y nombres de los jugadores
     generarTablero();
     moverPiezas();
     cambiarTurno(turno);
+    document.getElementById('jugador1').innerHTML = nombreJ1;
+    document.getElementById('jugador2').innerHTML = nombreJ2;
 }
 
-/* <---------------Comienza la parte de CARGAR partida---------------> */
+/* <---------------Comienza la parte de los NOMBRES para los JUGADORES---------------> */
 
-/* <---------------Comienza la parte de los nombres para los JUGADORES---------------> */
+function nombreJugadores(){
+    /* document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
+    document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:'); */
+}
 
-document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
-document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
 
 /* var puntosJ1 = parseInt(document.getElementById('jugador1_puntos').textContent);
-puntosJ1++;
-document.getElementById('jugador1_puntos').innerHTML = puntosJ1; */
+puntosJ1--;
+document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+
+var puntosJ2 = parseInt(document.getElementById('jugador2_puntos').textContent);
+puntosJ2--;
+document.getElementById('jugador2_puntos').innerHTML = puntosJ2; */
