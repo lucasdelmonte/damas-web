@@ -1,10 +1,10 @@
 var tableroArray = [
     [0,1,0,1,0,1,0,1],
-    [1,0,0,0,0,0,0,0],
-    [0,2,0,1,0,1,0,1],
-    [1,0,0,0,2,0,0,0],
-    [0,1,0,0,0,0,0,0],
-    [2,0,0,0,2,0,2,0],
+    [1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1],
+    [0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0],
+    [2,0,2,0,2,0,2,0],
     [0,2,0,2,0,2,0,2],
     [2,0,2,0,2,0,2,0]
 ];
@@ -223,7 +223,7 @@ function cambiarTurno(turno){
     }
 }
 
-/* <---------------Comienza la parte de los MOVIMIENTOS VALIDOS---------------> */
+/* <---------------Comienza la parte de los MOVIMIENTOS VALIDOS y COMER DAMAS---------------> */
 
 function verificarUbicacionBlanca(ubicacion){
     fila = ubicacion.substring(5, 6); 
@@ -335,6 +335,7 @@ function movimientoBlanca(fila, columna){
                     console.log('No puede comer la posicion 2');
                     ubicacionFinalDos.classList.remove('movimiento');
                 }
+
             }
         }
     }
@@ -354,14 +355,15 @@ function comerRojas(ubicacionFinalUno, ubicacionFinalDos){
             filaUbiUno = parseInt(fila) + 2;
             if (columna != 1 && columna != 6) {
                 columnaUbiUno = parseInt(columna) - 2;
+                ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
             } else {
                 if (columna == 1) {
-                    columnaUbiUno = parseInt(columna) + 2;
+                    columnaUbiUno = columna;
                 } else {
                     columnaUbiUno = parseInt(columna) - 2;
+                    ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
                 }
             }
-            ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
             if (ubicacionFinalUno.firstElementChild == null) { 
                 console.log('No, no hay ninguna ficha en esa posicion');
                 ubicacionFinalUno.classList.add('movimiento');
@@ -384,21 +386,22 @@ function comerRojas(ubicacionFinalUno, ubicacionFinalDos){
             filaUbiDos = parseInt(fila) + 2;
             if (columna != 1 && columna != 6) {
                 columnaUbiDos = parseInt(columna) + 2;
+                ubicacionFinalDos = document.querySelector('#fila-' + filaUbiDos +'-columna-' + columnaUbiDos );
             } else {
                 if (columna == 1) {
                     columnaUbiDos = parseInt(columna) + 2;
+                    ubicacionFinalDos = document.querySelector('#fila-' + filaUbiDos +'-columna-' + columnaUbiDos );
                 } else {
-                    columnaUbiDos = parseInt(columna) - 2;
+                    columnaUbiDos = columna;
                 }
             }
-            ubicacionFinalDos = document.querySelector('#fila-' + filaUbiDos +'-columna-' + columnaUbiDos );
             if (ubicacionFinalDos.firstElementChild == null) { 
                 console.log('No, no hay ninguna ficha en esa posicion');
                 ubicacionFinalDos.classList.add('movimiento');
                 comerDos = true;
             }
         }
-    } 
+    }
 }
 
 function verificarUbicacionRoja(ubicacion){
@@ -417,6 +420,20 @@ function movimientoRoja(fila, columna){
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
             if(!ubicacionFinalUno.firstElementChild){
                 ubicacionFinalUno.classList.add('movimiento');
+                comer = false;
+            } else { // Hay una ficha roja?
+                if (ubicacionFinalUno.firstElementChild.alt == 'ficha_blanca') {
+                    console.log('Si, hay una ficha roja');
+                    fila--;  
+                    columna--;
+                    ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
+                    // Puedo comer esa ficha o hay una ocupando el lugar?
+                    if (ubicacionFinalUno.firstElementChild == null) { 
+                        console.log('No, no hay ninguna ficha en esa posicion');
+                        ubicacionFinalUno.classList.add('movimiento');
+                        comer = true;
+                    }
+                }
             }
         } else {
             if(columna == 0){
@@ -425,19 +442,28 @@ function movimientoRoja(fila, columna){
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
                 if(!ubicacionFinalUno.firstElementChild){
                     ubicacionFinalUno.classList.add('movimiento');
+                    comer = false;
+                } else { // Hay una ficha roja?
+                    if (ubicacionFinalUno.firstElementChild.alt == 'ficha_blanca') {
+                        console.log('Si, hay una ficha roja');
+                        fila--;  
+                        columna++;
+                        ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
+                        // Puedo comer esa ficha o hay una ocupando el lugar?
+                        if (ubicacionFinalUno.firstElementChild == null) { 
+                            console.log('No, no hay ninguna ficha en esa posicion');
+                            ubicacionFinalUno.classList.add('movimiento');
+                            comer = true;
+                        }
+                    }
                 }
             } else {
                 fila--;  
                 columna--;   
                 ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                if(!ubicacionFinalUno.firstElementChild){
-                    ubicacionFinalUno.classList.add('movimiento');
-                }
                 columna = columna + 2;
                 ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna );
-                if(!ubicacionFinalDos.firstElementChild){
-                    ubicacionFinalDos.classList.add('movimiento');
-                }
+                comerBlancas(ubicacionFinalUno, ubicacionFinalDos);
             }
         }
     } else {
@@ -446,15 +472,109 @@ function movimientoRoja(fila, columna){
         if (columna == 7) {
             columna--;
             ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
+            if (comer) {
+                fila--;
+                columna--;
+                ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+            } else {
+                columna--;
+                console.log('No puede comer');
+                ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+            }
         } else {
             if (columna == 0) {
                 columna++;
-                ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento'); 
-            } else {
-                columna--;
-                ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
-                columna = columna + 2;
                 ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                if (comer) {
+                    fila--;
+                    columna++;
+                    ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                } else {
+                    columna++;
+                    console.log('No puede comer');
+                    ubicacionFinalDos = document.querySelector('#fila-' + fila +'-columna-' + columna ).classList.remove('movimiento');
+                }
+            } else {
+
+                if (comerUno) {
+                    console.log('Puede comer la posicion 1');
+                    ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno ).classList.remove('movimiento');
+                } else {
+                    console.log('No puede comer la posicion 1');
+                    ubicacionFinalUno.classList.remove('movimiento');
+                }
+
+                if (comerDos) {
+                    console.log('Puede comer la posicion 2');
+                    ubicacionFinalDos = document.querySelector('#fila-' + filaUbiDos +'-columna-' + columnaUbiDos ).classList.remove('movimiento');
+                }else {
+                    console.log('No puede comer la posicion 2');
+                    ubicacionFinalDos.classList.remove('movimiento');
+                }
+            }
+        }
+    }
+}
+
+function comerBlancas(ubicacionFinalUno, ubicacionFinalDos){
+
+    console.log(ubicacionFinalUno);
+
+    if(!ubicacionFinalUno.firstElementChild){
+        console.log('La primera ubicacion NO tiene un hijo');
+        ubicacionFinalUno.classList.add('movimiento');
+        comerUno = false;
+    } else {
+        if (ubicacionFinalUno.firstElementChild.alt == 'ficha_blanca') {
+            console.log('La primera ubicacion tiene un hijo y es blanca');
+            filaUbiUno = parseInt(fila) - 2;
+            if (columna != 1 && columna != 6) {
+                columnaUbiUno = parseInt(columna) - 2;
+                ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
+            } else {
+                if (columna == 1) {
+                    columnaUbiUno = columna;
+                } else {
+                    columnaUbiUno = parseInt(columna) - 2;
+                    ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
+                }
+            }
+            if (ubicacionFinalUno.firstElementChild == null) { 
+                console.log('No, no hay ninguna ficha en esa posicion');
+                ubicacionFinalUno.classList.add('movimiento');
+                comerUno = true;
+            }
+        }
+    }
+
+    console.log('<=========== CORTE ===========>');
+
+    console.log(ubicacionFinalDos);
+
+    if(!ubicacionFinalDos.firstElementChild){
+        console.log('La segunda ubicacion NO tiene un hijo');
+        ubicacionFinalDos.classList.add('movimiento');
+        comerDos = false;
+    } else {
+        if (ubicacionFinalDos.firstElementChild.alt == 'ficha_blanca') {
+            console.log('La segunda ubicacion tiene un hijo y es blanca');
+            filaUbiDos = parseInt(fila) - 2;
+            
+            if (columna != 1 && columna != 6) {
+                columnaUbiDos = parseInt(columna) + 2;
+                ubicacionFinalDos = document.querySelector('#fila-' + filaUbiDos +'-columna-' + columnaUbiDos );
+            } else {
+                if (columna == 1) {
+                    columnaUbiDos = parseInt(columna) + 2;
+                    ubicacionFinalDos = document.querySelector('#fila-' + filaUbiDos +'-columna-' + columnaUbiDos );
+                } else {
+                    columnaUbiDos = columna;
+                }
+            }
+            if (ubicacionFinalDos.firstElementChild == null) { 
+                console.log('No, no hay ninguna ficha en esa posicion');
+                ubicacionFinalDos.classList.add('movimiento');
+                comerDos = true;
             }
         }
     }
@@ -549,3 +669,12 @@ function nombreJugadores(){
     /* document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
     document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:'); */
 }
+
+
+/* var puntosJ1 = parseInt(document.getElementById('jugador1_puntos').textContent);
+puntosJ1--;
+document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+
+var puntosJ2 = parseInt(document.getElementById('jugador2_puntos').textContent);
+puntosJ2--;
+document.getElementById('jugador2_puntos').innerHTML = puntosJ2; */
