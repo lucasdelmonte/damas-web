@@ -255,10 +255,12 @@ function movimientoBlanca(fila, columna){
                     columna--;
                     ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
                     // Puedo comer esa ficha o hay una ocupando el lugar?
-                    if (ubicacionFinalUno.firstElementChild == null) { 
-                        console.log('No, no hay ninguna ficha en esa posicion');
-                        ubicacionFinalUno.classList.add('movimiento');
-                        comer = true;
+                    if (ubicacionFinalUno != null) {
+                        if (ubicacionFinalUno.firstElementChild == null) { 
+                            console.log('No, no hay ninguna ficha en esa posicion');
+                            ubicacionFinalUno.classList.add('movimiento');
+                            comer = true;
+                        }
                     }
                 }
             }
@@ -277,10 +279,12 @@ function movimientoBlanca(fila, columna){
                         columna++;
                         ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
                         // Puedo comer esa ficha o hay una ocupando el lugar?
-                        if (ubicacionFinalUno.firstElementChild == null) { 
-                            console.log('No, no hay ninguna ficha en esa posicion');
-                            ubicacionFinalUno.classList.add('movimiento');
-                            comer = true;
+                        if (ubicacionFinalUno != null) {
+                            if (ubicacionFinalUno.firstElementChild == null) { 
+                                console.log('No, no hay ninguna ficha en esa posicion');
+                                ubicacionFinalUno.classList.add('movimiento');
+                                comer = true;
+                            }
                         }
                     }
                 }
@@ -364,10 +368,12 @@ function comerRojas(ubicacionFinalUno, ubicacionFinalDos){
                     ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
                 }
             }
-            if (ubicacionFinalUno.firstElementChild == null) { 
-                console.log('No, no hay ninguna ficha en esa posicion');
-                ubicacionFinalUno.classList.add('movimiento');
-                comerUno = true;
+            if (ubicacionFinalUno != null) {
+                if (ubicacionFinalUno.firstElementChild == null) { 
+                    console.log('No, no hay ninguna ficha en esa posicion');
+                    ubicacionFinalUno.classList.add('movimiento');
+                    comerUno = true;
+                }
             }
         }
     } 
@@ -395,10 +401,12 @@ function comerRojas(ubicacionFinalUno, ubicacionFinalDos){
                     columnaUbiDos = columna;
                 }
             }
-            if (ubicacionFinalDos.firstElementChild == null) { 
-                console.log('No, no hay ninguna ficha en esa posicion');
-                ubicacionFinalDos.classList.add('movimiento');
-                comerDos = true;
+            if (ubicacionFinalDos != null) {
+                if (ubicacionFinalDos.firstElementChild == null) { 
+                    console.log('No, no hay ninguna ficha en esa posicion');
+                    ubicacionFinalDos.classList.add('movimiento');
+                    comerDos = true;
+                }
             }
         }
     }
@@ -428,10 +436,12 @@ function movimientoRoja(fila, columna){
                     columna--;
                     ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
                     // Puedo comer esa ficha o hay una ocupando el lugar?
-                    if (ubicacionFinalUno.firstElementChild == null) { 
-                        console.log('No, no hay ninguna ficha en esa posicion');
-                        ubicacionFinalUno.classList.add('movimiento');
-                        comer = true;
+                    if (ubicacionFinalUno != null) {
+                        if (ubicacionFinalUno.firstElementChild == null) { 
+                            console.log('No, no hay ninguna ficha en esa posicion');
+                            ubicacionFinalUno.classList.add('movimiento');
+                            comer = true;
+                        }
                     }
                 }
             }
@@ -450,10 +460,12 @@ function movimientoRoja(fila, columna){
                         columna++;
                         ubicacionFinalUno = document.querySelector('#fila-' + fila +'-columna-' + columna );
                         // Puedo comer esa ficha o hay una ocupando el lugar?
-                        if (ubicacionFinalUno.firstElementChild == null) { 
-                            console.log('No, no hay ninguna ficha en esa posicion');
-                            ubicacionFinalUno.classList.add('movimiento');
-                            comer = true;
+                        if (ubicacionFinalUno != null) {
+                            if (ubicacionFinalUno.firstElementChild == null) { 
+                                console.log('No, no hay ninguna ficha en esa posicion');
+                                ubicacionFinalUno.classList.add('movimiento');
+                                comer = true;
+                            }
                         }
                     }
                 }
@@ -539,10 +551,12 @@ function comerBlancas(ubicacionFinalUno, ubicacionFinalDos){
                     ubicacionFinalUno = document.querySelector('#fila-' + filaUbiUno +'-columna-' + columnaUbiUno );
                 }
             }
-            if (ubicacionFinalUno.firstElementChild == null) { 
-                console.log('No, no hay ninguna ficha en esa posicion');
-                ubicacionFinalUno.classList.add('movimiento');
-                comerUno = true;
+            if (ubicacionFinalUno != null) {
+                if (ubicacionFinalUno.firstElementChild == null) { 
+                    console.log('No, no hay ninguna ficha en esa posicion');
+                    ubicacionFinalUno.classList.add('movimiento');
+                    comerUno = true;
+                }
             }
         }
     }
@@ -571,10 +585,12 @@ function comerBlancas(ubicacionFinalUno, ubicacionFinalDos){
                     columnaUbiDos = columna;
                 }
             }
-            if (ubicacionFinalDos.firstElementChild == null) { 
-                console.log('No, no hay ninguna ficha en esa posicion');
-                ubicacionFinalDos.classList.add('movimiento');
-                comerDos = true;
+            if (ubicacionFinalDos != null) {
+                if (ubicacionFinalDos.firstElementChild == null) { 
+                    console.log('No, no hay ninguna ficha en esa posicion');
+                    ubicacionFinalDos.classList.add('movimiento');
+                    comerDos = true;
+                }
             }
         }
     }
