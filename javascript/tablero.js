@@ -9,7 +9,9 @@ var tableroArray = [
     [2,0,2,0,2,0,2,0]
 ];
 
-var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1, comer = false, comerUno = false, comerDos = false;
+var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1;
+var comer = false, comerUno = false, comerDos = false;
+var rojaEnUltima = false, blancaEnUltima = false;
 var puntosJ1 = parseInt(document.getElementById('jugador1_puntos').textContent);
 var puntosJ2 = parseInt(document.getElementById('jugador2_puntos').textContent);
 
@@ -108,7 +110,7 @@ function moverPiezas(){
     }
 }
 
-function seleccionaPieza(e) {
+function seleccionaPieza(e){
     switch (turno) {
         // Turno del jugador 1
         case 1: 
@@ -140,6 +142,9 @@ function seleccionaPieza(e) {
                     eliminarDamaRoja(nuevafilaColumna);
 
                     movimientoBlanca(fila, columna);
+
+                    detectarVictoria();
+                    detectarEmpate();
 
                     // Cambio de turnos
                     turno = 2;
@@ -189,6 +194,9 @@ function seleccionaPieza(e) {
                     eliminarDamaBlanca(nuevafilaColumna);
 
                     movimientoRoja(fila, columna);
+
+                    detectarVictoria();
+                    detectarEmpate();
 
                     // Cambio de turnos
                     turno = 1;
@@ -418,7 +426,7 @@ function comerRojas(ubicacionFinalUno, ubicacionFinalDos){
     }
 }
 
-function eliminarDamaRoja(nuevafilaColumna) {
+function eliminarDamaRoja(nuevafilaColumna){
     fichaComestibleFila = nuevafilaColumna.id.substring(5, 6); 
     fichaComestibleColumna = nuevafilaColumna.id.substring(15);
     if (columna < nuevaColumna) { 
@@ -637,7 +645,7 @@ function comerBlancas(ubicacionFinalUno, ubicacionFinalDos){
     }
 }
 
-function eliminarDamaBlanca(nuevafilaColumna) {
+function eliminarDamaBlanca(nuevafilaColumna){
     fichaComestibleFila = nuevafilaColumna.id.substring(5, 6); 
     fichaComestibleColumna = nuevafilaColumna.id.substring(15); 
     if (columna < nuevaColumna) { 
@@ -650,8 +658,8 @@ function eliminarDamaBlanca(nuevafilaColumna) {
             tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
             fichaComestible.remove();
             // Suma un punto en el marcador por comer una ficha
-            puntosJ1++;
-            document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+            puntosJ2++;
+            document.getElementById('jugador2_puntos').innerHTML = puntosJ2;
         }
     } else {
         if (columna > nuevaColumna) {
@@ -663,9 +671,39 @@ function eliminarDamaBlanca(nuevafilaColumna) {
                 tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
                 fichaComestible.remove();
                 // Suma un punto en el marcador por comer una ficha
-                puntosJ1++;
-                document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+                puntosJ2++;
+                document.getElementById('jugador2_puntos').innerHTML = puntosJ2;
             }
+        }
+    }
+}
+
+/* <---------------Comienza la parte de detectar EMPATE---------------> */
+
+function detectarEmpate(){
+    // Ultima fila para las rojas
+    if (tableroArray[0][1] == 2 || tableroArray[0][3] == 2 || tableroArray[0][5] == 2 || tableroArray[0][7] == 2) {
+        rojaEnUltima = true;
+    }
+
+    // Ultima fila para las blancas
+    if (tableroArray[7][0] == 1 || tableroArray[7][2] == 1 || tableroArray[7][4] == 1 || tableroArray[7][6] == 1) {
+        blancaEnUltima = true;
+    }
+
+    if (rojaEnUltima == true && blancaEnUltima == true) {
+        alert('Hay un empate');
+    }
+}
+
+/* <---------------Comienza la parte de detectar VICTORIA---------------> */
+
+function detectarVictoria(){
+    if (puntosJ1 == 12) {
+        alert('Felicitaciones ' + nombreJ1 + '!! Ganaste');
+    } else {
+        if (puntosJ2 == 12) {
+            alert('Felicitaciones ' + nombreJ2 + '!! Ganaste');
         }
     }
 }
@@ -724,6 +762,8 @@ function nuevaPartida(){
     moverPiezas();
     cambiarTurno(turno);
     nombreJugadores();
+    document.getElementById('jugador1_puntos').innerHTML = 0;
+    document.getElementById('jugador2_puntos').innerHTML = 0;
 }
 
 function guardarPartida(){
