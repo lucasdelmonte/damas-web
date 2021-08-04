@@ -113,7 +113,7 @@ h2{
 	border-radius: 10px;
 }
 
-p{
+#jugador1_puntos, #jugador2_puntos{
 	color: white;
 	width: 30px;
 	line-height: 25px;
@@ -202,7 +202,7 @@ p{
 	}
 }
 
-.button{
+.boton{
 	width: 220px;
 	height: 52px;
 	margin-top: 20px;
@@ -217,7 +217,7 @@ p{
 	border: 1px solid #84C5F3;
 }
 
-.button:hover{
+.boton:hover{
 	font-size: 19px;
 }
 
@@ -351,3 +351,84 @@ input[type=submit]:hover{
 		width: 90%;
 	}
 }
+
+/* ESTILOS DEL MENSAJE EMERGENTE */
+
+.mensaje_emergente{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+	position: absolute;
+	background-color: #202020;
+	width: 25%;
+	color: blanchedalmond;
+	box-shadow: 0px 0px 15px 0px rgb(0, 0, 0);
+	padding: 19px 18px 10px 18px;
+	height: 210px;
+	border-radius: 20px;
+	left: 37.5%;
+	top: 34.7%;
+	visibility: hidden;
+
+}
+
+.mensaje{
+	width: 90%;
+	text-align: center;
+	font-size: 18px;
+}
+
+.aceptar {
+	margin-left: auto;
+}
+
+.aceptar input[type=button]{
+	width: 70px;
+	height: 30px;
+	border-radius: 4px;
+	font-size: 17px;
+	border: 0;
+	color: blanchedalmond;
+	background-color: #202020;
+	border-bottom: 1px inset blanchedalmond;
+}
+
+.aceptar input[type=button]:hover{
+	cursor: pointer;
+	background-color: #575757;
+}
+
+.ocultarVentana{
+	visibility: hidden;
+}
+
+.mostrarVentana{
+	visibility: visible;
+}
+
+@media screen and (max-width: 1120px){
+	.mensaje_emergente{
+		width: 45%;
+		left: 27.6%;
+	}
+}
+
+@media screen and (max-width: 460px){
+	.mensaje_emergente{
+		width: 55%;
+		left: 22.6%;
+		top: 30%;
+		height: 140px;
+	}
+	.mensaje{
+		font-size: 16px;
+	}
+	.aceptar input[type=button]{
+		font-size: 14px;
+	}
+}
+
+
+
+

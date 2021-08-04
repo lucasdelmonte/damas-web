@@ -11,9 +11,9 @@ var tableroArray = [
 
 var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1;
 var comer = false, comerUno = false, comerDos = false;
-var rojaEnUltima = false, blancaEnUltima = false;
 var puntosJ1 = parseInt(document.getElementById('jugador1_puntos').textContent);
 var puntosJ2 = parseInt(document.getElementById('jugador2_puntos').textContent);
+var btnMenu = document.querySelector('img[alt="Menu"]'), desplegado = true;
 
 /* <---------------Comienza la parte del TABLERO---------------> */
 
@@ -107,6 +107,14 @@ function moverPiezas(){
     
     for(var x = 0; x < casillas.length; x++) {
         casillas[x].addEventListener('click', seleccionaPieza);
+    }
+}
+
+function anularMovimientoPiezas(){
+    var casillas = document.getElementsByClassName('casilla_negra'); 
+    
+    for(var x = 0; x < casillas.length; x++) {
+        casillas[x].removeEventListener('click', seleccionaPieza);
     }
 }
 
@@ -681,6 +689,7 @@ function eliminarDamaBlanca(nuevafilaColumna){
 /* <---------------Comienza la parte de detectar EMPATE---------------> */
 
 function detectarEmpate(){
+    var rojaEnUltima = false, blancaEnUltima = false;
     // Ultima fila para las rojas
     if (tableroArray[0][1] == 2 || tableroArray[0][3] == 2 || tableroArray[0][5] == 2 || tableroArray[0][7] == 2) {
         rojaEnUltima = true;
@@ -692,7 +701,10 @@ function detectarEmpate(){
     }
 
     if (rojaEnUltima == true && blancaEnUltima == true) {
-        alert('Hay un empate');
+        var mensaje = document.querySelector('#mensaje');
+        ventana.classList.add('mostrarVentana');
+        mensaje.textContent = 'Empate! No se puede continuar con la partida';
+        anularMovimientoPiezas();
     }
 }
 
@@ -700,36 +712,17 @@ function detectarEmpate(){
 
 function detectarVictoria(){
     if (puntosJ1 == 12) {
-        alert('Felicitaciones ' + nombreJ1 + '!! Ganaste');
+        var mensaje = document.querySelector('#mensaje');
+        ventana.classList.add('mostrarVentana');
+        mensaje.textContent = 'Felicitaciones ' + nombreJ1 + '!! Ganaste';
+        anularMovimientoPiezas();
     } else {
         if (puntosJ2 == 12) {
-            alert('Felicitaciones ' + nombreJ2 + '!! Ganaste');
+            var mensaje = document.querySelector('#mensaje');
+            ventana.classList.add('mostrarVentana');
+            mensaje.textContent = 'Felicitaciones ' + nombreJ2 + '!! Ganaste';
+            anularMovimientoPiezas();
         }
-    }
-}
-
-/* <---------------Comienza la parte del MENU DESPLEGABLE---------------> */
-
-var btnMenu = document.querySelector('img[alt="Menu"]'), desplegado = true;
-
-btnMenu.addEventListener('click', menuDesplegable);
-
-function menuDesplegable() {
-    if (desplegado) {
-        enlace = document.querySelectorAll('.nav');
-        for (var i = 0; i < enlace.length; i++) {
-            enlace[i].classList.remove('oculto');
-            enlace[i].classList.add('mostrado');
-        } 
-        var nav = document.getElementById('nav').style.height = '316px';
-        desplegado = false;
-    } else {
-        for (var i = 0; i < enlace.length; i++) {
-            enlace[i].classList.remove('mostrado');
-            enlace[i].classList.add('oculto');
-        } 
-        var nav = document.getElementById('nav').style.height = '120px';
-        desplegado = true;
     }
 }
 
@@ -764,6 +757,8 @@ function nuevaPartida(){
     nombreJugadores();
     document.getElementById('jugador1_puntos').innerHTML = 0;
     document.getElementById('jugador2_puntos').innerHTML = 0;
+    document.getElementById('jugador1_puntos').textContent = 0;
+    document.getElementById('jugador2_puntos').textContent = 0;
 }
 
 function guardarPartida(){
@@ -795,7 +790,6 @@ function cargarPartida(){
     cambiarTurno(turno);
     document.getElementById('jugador1').innerHTML = nombreJ1;
     document.getElementById('jugador2').innerHTML = nombreJ2;
-
     document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
     document.getElementById('jugador2_puntos').innerHTML = puntosJ2;
 }
@@ -803,6 +797,40 @@ function cargarPartida(){
 /* <---------------Comienza la parte de los NOMBRES y PUNTOS para los JUGADORES---------------> */
 
 function nombreJugadores(){
-    nombreJ1 = document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primero jugador:');
+    nombreJ1 = document.getElementById('jugador1').innerHTML = prompt('Ingrese el nombre del primer jugador:');
     nombreJ2 = document.getElementById('jugador2').innerHTML = prompt('Ingrese el nombre del segundo jugador:');
+}
+
+/* <---------------Comienza la parte del MENU DESPLEGABLE---------------> */
+
+btnMenu.addEventListener('click', menuDesplegable);
+
+function menuDesplegable() {
+    if (desplegado) {
+        enlace = document.querySelectorAll('.nav');
+        for (var i = 0; i < enlace.length; i++) {
+            enlace[i].classList.remove('oculto');
+            enlace[i].classList.add('mostrado');
+        } 
+        var nav = document.getElementById('nav').style.height = '316px';
+        desplegado = false;
+    } else {
+        for (var i = 0; i < enlace.length; i++) {
+            enlace[i].classList.remove('mostrado');
+            enlace[i].classList.add('oculto');
+        } 
+        var nav = document.getElementById('nav').style.height = '120px';
+        desplegado = true;
+    }
+}
+
+/* <---------------Comienza la parte del MENSAJE EMERGENTE---------------> */
+
+btnAceptar = document.getElementById('aceptar').addEventListener('click', cerrarVentana);
+ventana = document.querySelector('.mensaje_emergente');
+
+function cerrarVentana(){
+    anularMovimientoPiezas;
+    ventana.classList.remove('mostrarVentana');
+    ventana.classList.add('ocultarVentana');
 }
