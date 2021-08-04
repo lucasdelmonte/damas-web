@@ -1,15 +1,15 @@
 var tableroArray = [
+    [0,1,0,1,0,1,0,1],
+    [1,0,1,0,1,0,1,0],
+    [0,1,0,1,0,1,0,1],
     [0,0,0,0,0,0,0,0],
-    [0,0,1,0,1,0,0,0],
-    [0,0,0,2,0,0,0,0],
-    [0,0,0,0,0,0,1,0],
-    [0,1,0,0,0,0,0,2],
-    [2,0,0,0,1,0,0,0],
-    [0,0,0,2,0,2,0,0],
-    [0,0,0,0,0,0,0,0]
+    [0,0,0,0,0,0,0,0],
+    [2,0,2,0,2,0,2,0],
+    [0,2,0,2,0,2,0,2],
+    [2,0,2,0,2,0,2,0]
 ];
 
-var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 2, comer = false, comerUno = false, comerDos = false;
+var casilla, posicion, piezaMovil, piezaMovilSeleccionada, turno = 1, comer = false, comerUno = false, comerDos = false;
 var puntosJ1 = parseInt(document.getElementById('jugador1_puntos').textContent);
 var puntosJ2 = parseInt(document.getElementById('jugador2_puntos').textContent);
 
@@ -136,38 +136,8 @@ function seleccionaPieza(e) {
 
                     nuevafilaColumna = e.currentTarget;
                     actualizarMatriz(nuevafilaColumna);
-                    tableroArray[nuevaFila][nuevaColumna] = 1;
-                    fichaComestibleFila = nuevafilaColumna.id.substring(5, 6); 
-                    fichaComestibleColumna = nuevafilaColumna.id.substring(15); 
-
-                    if (columna < nuevaColumna) { 
-                        // Si se cumple quiere decir que se movio hacia la derecha
-                        fichaComestibleFila--;
-                        fichaComestibleColumna--;
-                        fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
-                        // Remueve la ficha que va a comer
-                        if (fichaComestible != null) {
-                            tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
-                            fichaComestible.remove();
-                            // Suma un punto en el marcador por comer una ficha
-                            puntosJ1++;
-                            document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
-                        }
-                    } else {
-                        if (columna > nuevaColumna) {
-                            fichaComestibleFila--;
-                            fichaComestibleColumna++;
-                            fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
-                            // Remueve la ficha que va a comer
-                            if (fichaComestible != null) {
-                                tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
-                                fichaComestible.remove();
-                                // Suma un punto en el marcador por comer una ficha
-                                puntosJ1++;
-                                document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
-                            }
-                        }
-                    }
+                    tableroArray[nuevaFila][nuevaColumna] = 1; 
+                    eliminarDamaRoja(nuevafilaColumna);
 
                     movimientoBlanca(fila, columna);
 
@@ -216,37 +186,7 @@ function seleccionaPieza(e) {
                     nuevafilaColumna = e.currentTarget;
                     actualizarMatriz(nuevafilaColumna);
                     tableroArray[nuevaFila][nuevaColumna] = 2;
-                    fichaComestibleFila = nuevafilaColumna.id.substring(5, 6); 
-                    fichaComestibleColumna = nuevafilaColumna.id.substring(15); 
-
-                    if (columna < nuevaColumna) { 
-                        // Si se cumple quiere decir que se movio hacia la derecha
-                        fichaComestibleFila++;
-                        fichaComestibleColumna--;
-                        fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
-                        // Remueve la ficha que va a comer
-                        if (fichaComestible != null) {
-                            tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
-                            fichaComestible.remove();
-                            // Suma un punto en el marcador por comer una ficha
-                            puntosJ1++;
-                            document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
-                        }
-                    } else {
-                        if (columna > nuevaColumna) {
-                            fichaComestibleFila++;
-                            fichaComestibleColumna++;
-                            fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
-                            // Remueve la ficha que va a comer
-                            if (fichaComestible != null) {
-                                tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
-                                fichaComestible.remove();
-                                // Suma un punto en el marcador por comer una ficha
-                                puntosJ1++;
-                                document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
-                            }
-                        }
-                    }
+                    eliminarDamaBlanca(nuevafilaColumna);
 
                     movimientoRoja(fila, columna);
 
@@ -287,7 +227,7 @@ function cambiarTurno(turno){
     }
 }
 
-/* <---------------Comienza la parte de los MOVIMIENTOS VALIDOS y COMER DAMAS---------------> */
+/* <---------------Comienza la parte de los MOVIMIENTOS VALIDOS y COMER DAMAS BLANCAS---------------> */
 
 function verificarUbicacionBlanca(ubicacion){
     fila = ubicacion.substring(5, 6); 
@@ -478,6 +418,41 @@ function comerRojas(ubicacionFinalUno, ubicacionFinalDos){
     }
 }
 
+function eliminarDamaRoja(nuevafilaColumna) {
+    fichaComestibleFila = nuevafilaColumna.id.substring(5, 6); 
+    fichaComestibleColumna = nuevafilaColumna.id.substring(15);
+    if (columna < nuevaColumna) { 
+        // Si se cumple quiere decir que se movio hacia la derecha
+        fichaComestibleFila--;
+        fichaComestibleColumna--;
+        fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
+        // Remueve la ficha que va a comer
+        if (fichaComestible != null) {
+            tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
+            fichaComestible.remove();
+            // Suma un punto en el marcador por comer una ficha
+            puntosJ1++;
+            document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+        }
+    } else {
+        if (columna > nuevaColumna) {
+            fichaComestibleFila--;
+            fichaComestibleColumna++;
+            fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
+            // Remueve la ficha que va a comer
+            if (fichaComestible != null) {
+                tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
+                fichaComestible.remove();
+                // Suma un punto en el marcador por comer una ficha
+                puntosJ1++;
+                document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+            }
+        }
+    }
+}
+
+/* <---------------Comienza la parte de los MOVIMIENTOS VALIDOS y COMER DAMAS ROJAS---------------> */
+
 function verificarUbicacionRoja(ubicacion){
     fila = ubicacion.substring(5, 6); 
     columna = ubicacion.substring(15);
@@ -662,6 +637,39 @@ function comerBlancas(ubicacionFinalUno, ubicacionFinalDos){
     }
 }
 
+function eliminarDamaBlanca(nuevafilaColumna) {
+    fichaComestibleFila = nuevafilaColumna.id.substring(5, 6); 
+    fichaComestibleColumna = nuevafilaColumna.id.substring(15); 
+    if (columna < nuevaColumna) { 
+        // Si se cumple quiere decir que se movio hacia la derecha
+        fichaComestibleFila++;
+        fichaComestibleColumna--;
+        fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
+        // Remueve la ficha que va a comer
+        if (fichaComestible != null) {
+            tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
+            fichaComestible.remove();
+            // Suma un punto en el marcador por comer una ficha
+            puntosJ1++;
+            document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+        }
+    } else {
+        if (columna > nuevaColumna) {
+            fichaComestibleFila++;
+            fichaComestibleColumna++;
+            fichaComestible = document.querySelector('#fila-' + fichaComestibleFila +'-columna-' + fichaComestibleColumna ).firstElementChild;
+            // Remueve la ficha que va a comer
+            if (fichaComestible != null) {
+                tableroArray[fichaComestibleFila][fichaComestibleColumna] = 0;
+                fichaComestible.remove();
+                // Suma un punto en el marcador por comer una ficha
+                puntosJ1++;
+                document.getElementById('jugador1_puntos').innerHTML = puntosJ1;
+            }
+        }
+    }
+}
+
 /* <---------------Comienza la parte del MENU DESPLEGABLE---------------> */
 
 var btnMenu = document.querySelector('img[alt="Menu"]'), desplegado = true;
@@ -737,7 +745,6 @@ function cargarPartida(){
     nombreJ2 = localStorage.getItem('jugador2');
     puntosJ1 = parseInt(localStorage.getItem('puntosj1'));
     puntosJ2 = parseInt(localStorage.getItem('puntosj2'));
-    console.log(puntosJ1, puntosJ2);
     // Carga el tablero guardado
     tableroArray = tableroGuardado;
     // Limpia el tablero
