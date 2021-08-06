@@ -27,8 +27,9 @@ function menuDesplegable() {
 
 var nombre = document.getElementById('nombre'), email = document.getElementById('email'), mensaje = document.getElementById('mensaje');
 
-// De Teraflop Computacion 
+// De Delmonte Lucas 
 const formulario = document.querySelector('#formulario');
+// Enlace 
 const btnMailA = document.querySelector('#fundamental');
 
 formulario.addEventListener('submit', enviarEmail);
@@ -48,10 +49,13 @@ function enviarEmail(event){
             if (mensaje.value == ' ' || mensaje.value.length < 6) {
                 alert('El mensaje es demasiado corto o esta incompleto');
             } else {
-                // Enviamos el formulario
+                // Obtenemos la informacion del formulario
                 const form = new FormData(this);
-                btnMailA.setAttribute('href', `mailto:${form.get('email')}?subject=Nombre: ${form.get('nombre')}&body=${form.get('mensaje')}`);
+                // Le mandamos la informacion
+                btnMailA.setAttribute('href', `mailto:delmontelucas678@gmail.com?subject=Nombre: ${form.get('nombre')}  Correo: ${form.get('email')}&body=${form.get('mensaje')}`);
+                // Click al elemento btnMailA oculto en la pagina
                 btnMailA.click();
+                // Reseteamos el formulario
                 document.getElementById("formulario").reset();
             }
         }
