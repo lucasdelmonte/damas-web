@@ -29,6 +29,6 @@ Vista previa del proyecto:
 ![vistaPrevia](https://user-images.githubusercontent.com/82593976/128511403-9c0eb472-d9ff-4529-a645-ebc11b978ec0.png)
 
 
-Enlace directo a [github pages](https://lucasdelmonte.github.io/tablero_damas_personal/) para visualizar la página.
+Enlace directo a [github pages](https://lucasdelmonte.github.io/Tablero_damas_personalizado/) para visualizar la página.
 
 <p align="center">Diseñado y Desarrollado por Lucas Delmonte - Estudiante de Ing. en Sistemas</p>
