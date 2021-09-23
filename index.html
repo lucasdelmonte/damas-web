@@ -1,63 +1,108 @@
 <html lang="es">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- Link de Estilos -->
-	<link rel="stylesheet" href="style/normalize.css">
-	<link rel="stylesheet" href="style/estilos.css">
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="img/damasIcono.png">
-	<title>Tablero de Damas</title>
-</head>
-<body>
-	<div class="contenedor-principal">
-		<nav id="nav">
-			<a href="https://www.instagram.com/teraflop.computacion/" target="_blank"><img class="logo" src="img/TERAFLOP.png" alt="Logo"></a>
-			<div class="menu">
-				<img src="img/menu_50px.png" alt="Menu" id="btn_menu">
-			</div>
-			<div class="enlaces">
-				<a href="#" class="nav oculto">Damas Online</a>
-				<a href="contacto.html" class="nav oculto">Contacto</a>
-				<a href="#" class="nav oculto">Registrarse</a>
-				<a href="#" class="nav oculto">Iniciar Sesión</a>
-			</div>
-		</nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Link de Estilos -->
+    <link rel="stylesheet" href="style/normalize.css" />
+    <link rel="stylesheet" href="style/estilos.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="img/damasIcono.png" />
+    <title>Tablero de Damas</title>
+  </head>
+  <body>
+    <div class="contenedor-principal">
+      <nav id="nav">
+        <a
+          href="https://www.instagram.com/teraflop.computacion/"
+          target="_blank"
+          ><img class="logo" src="img/TERAFLOP.png" alt="Logo"
+        /></a>
+        <div class="menu">
+          <img src="img/menu_50px.png" alt="Menu" id="btn_menu" />
+        </div>
+        <div class="enlaces">
+          <a href="#" class="nav oculto">Damas Online</a>
+          <a href="contacto.html" class="nav oculto">Contacto</a>
+          <a href="#" class="nav oculto">Registrarse</a>
+          <a href="#" class="nav oculto">Iniciar Sesión</a>
+        </div>
+      </nav>
 
-		<div class="mensaje_emergente">
-			<div class="mensaje">
-				<p id="mensaje"></p>
-			</div>
-			<div class="aceptar">
-				<input type="button" name="aceptar" value="Aceptar" id="aceptar" class="btnAceptar">
-			</div>
-		</div>
+      <div class="mensaje_emergente">
+        <div class="mensaje">
+          <p id="mensaje"></p>
+        </div>
+        <div class="aceptar">
+          <input
+            type="button"
+            name="aceptar"
+            value="Aceptar"
+            id="aceptar"
+            class="btnAceptar"
+          />
+        </div>
+      </div>
 
-    	<section>
-			<div class="jugador1">
-				<h2 id="jugador1">Jugador 1</h2>
-				<p id="jugador1_puntos">0</p>	
-			</div>	
-			
-		    <div id="tablero" class="tablero"></div>
-			
-			<div class="jugador2">
-				<p id="jugador2_puntos">0</p>
-				<h2 id="jugador2">Jugador 2</h2>
-			</div>
-		    <input type="button" name="Nueva Partida" value="Nueva Partida" id="nueva_partida" class="boton">
-			<input type="button" name="Guardar Partida" value="Guardar Partida" id="guardar_partida" class="boton">
-			<input type="button" name="Cargar Partida" value="Cargar Partida" id="cargar_partida" class="boton">
-		</section>
+      <section>
+        <div class="jugador1">
+          <h2 id="jugador1">Jugador 1</h2>
+          <p id="jugador1_puntos">0</p>
+        </div>
 
-		<footer id="footer">
-			<div class="derechos">
-				<h4>Para ver las reglas del juego haga clic <a href="https://ruibalgames.com/wp-content/uploads/2015/01/Reglas-de-juego%E2%80%94Damas-Li%CC%81nea-Verde.pdf" target="_blank"> aquí</a>.	Enlace directo a <a href="https://github.com/lucasdelmonte/Tablero_damas_personalizado" target="_blank"> GitHub</a></h4>
-				<h4>Sitio creado por Lucas Delmonte - 2021</h4>
-			</div>
-		</footer> 
-	</div>	
-	<script src="javascript/tablero.js"></script>
-</body>
+        <div id="tablero" class="tablero"></div>
+
+        <div class="jugador2">
+          <p id="jugador2_puntos">0</p>
+          <h2 id="jugador2">Jugador 2</h2>
+        </div>
+        <input
+          type="button"
+          name="Nueva Partida"
+          value="Nueva Partida"
+          id="nueva_partida"
+          class="boton"
+        />
+        <input
+          type="button"
+          name="Guardar Partida"
+          value="Guardar Partida"
+          id="guardar_partida"
+          class="boton"
+        />
+        <input
+          type="button"
+          name="Cargar Partida"
+          value="Cargar Partida"
+          id="cargar_partida"
+          class="boton"
+        />
+      </section>
+
+      <footer id="footer">
+        <div class="derechos">
+          <h4>
+            Para ver las reglas del juego haga clic
+            <a
+              href="https://ruibalgames.com/wp-content/uploads/2015/01/Reglas-de-juego%E2%80%94Damas-Li%CC%81nea-Verde.pdf"
+              target="_blank"
+            >
+              aquí</a
+            >. Enlace directo a
+            <a
+              href="https://github.com/lucasdelmonte/Tablero_damas_personalizado"
+              target="_blank"
+            >
+              GitHub</a
+            >
+          </h4>
+          <h4>Sitio creado por Lucas Delmonte - 2021</h4>
+        </div>
+      </footer>
+    </div>
+    <script src="javascript/tablero.js"></script>
+  </body>
 </html>
